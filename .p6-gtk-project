@@ -1,0 +1,8 @@
+prefix=Dazzle
+modules=
+lib=dazzle
+call_prefix=
+include-directory=/usr/include/libdazzle-1.0
+backups=backup,bitbucket,google-backup,azure-backup,hut
+build_exclude=
+hfile-prefix=
