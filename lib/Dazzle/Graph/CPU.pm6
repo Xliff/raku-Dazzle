@@ -10,7 +10,7 @@ our subset DazzleCPUGraphAncestry is export of Mu
   where DazzleCPUGraph | DzlGraphViewAncestry;
 
 class Dazzle::Graph::CPU is Dazzle::Graph::View {
-  has DazzleCPUGraph $!dgc;
+  has DazzleCPUGraph $!dgc is implementor;
 
   submethod BUILD ( :$dzl-cpu-graph ) {
     self.setDazzleCPUGraph($dzl-cpu-graph) if $dzl-cpu-graph;
@@ -21,7 +21,7 @@ class Dazzle::Graph::CPU is Dazzle::Graph::View {
 
     $!dgc = do {
       when DazzleCPUGraph {
-        $to-parent = cast(DazzleGraphView, $_);
+        $to-parent = cast(DzlGraphView, $_);
         $_;
       }
 
@@ -30,18 +30,21 @@ class Dazzle::Graph::CPU is Dazzle::Graph::View {
         cast(DazzleCPUGraph, $_)
       }
     }
-    self.setDazzleGraphView($to-parent);
+    self.setDzlGraphView($to-parent);
   }
 
   method Dazzle::Raw::Definitions::DazzleCPUGraph
   { $!dgc }
 
-  method new (DazzleCPUGraphAncestry $dzl-cpu-graph, :$ref = True) {
+  multi method new (DazzleCPUGraphAncestry $dzl-cpu-graph, :$ref = True) {
     return Nil unless $dzl-cpu-graph;
 
     my $o = self.bless( :$dzl-cpu-graph );
     $o.ref if $ref;
     $o;
+  }
+  multi method new {
+    self.new_full(60000000, 120);
   }
 
   method new_full (Int() $timespan, Int() $max_samples) {
