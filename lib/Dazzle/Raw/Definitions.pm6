@@ -17,6 +17,7 @@ class DzlApplication        is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlApplicationWindow  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlBindingGroup       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDirectoryModel     is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlDock               is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockItem           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphColumn        is repr<CPointer> does GLib::Roles::Pointers is export { }
