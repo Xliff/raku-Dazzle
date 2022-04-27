@@ -11,7 +11,7 @@ our subset DzlGraphViewAncestry is export of Mu
   where DzlGraphView | GtkDrawingAreaAncestry;
 
 class Dazzle::Graph::View is GTK::DrawingArea {
-  has DzlGraphView $!dgv;
+  has DzlGraphView $!dgv is implementor;
 
   submethod BUILD ( :$dzl-graph-view ) {
     self.setDzlGraphView($dzl-graph-view) if $dzl-graph-view;
@@ -21,7 +21,7 @@ class Dazzle::Graph::View is GTK::DrawingArea {
     my $to-parent;
 
     $!dgv = do {
-      when DazzleGraphView {
+      when DzlGraphView {
         $to-parent = cast(GtkDrawingArea, $_);
         $_;
       }
