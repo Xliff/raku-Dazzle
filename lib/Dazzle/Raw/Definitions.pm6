@@ -20,6 +20,7 @@ class DzlGraphColumn        is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlGraphModel         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphView          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphRenderer      is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlJoinedMenu         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesFlowBox is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is export { }
