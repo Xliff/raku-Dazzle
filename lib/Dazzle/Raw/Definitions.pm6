@@ -22,6 +22,7 @@ class DzlGraphView          is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlGraphRenderer      is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesFlowBox is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSignalGroup        is repr<CPointer> does GLib::Roles::Pointers is export { }
 
