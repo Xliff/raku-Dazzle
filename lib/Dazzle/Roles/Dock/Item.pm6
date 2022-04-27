@@ -6,11 +6,14 @@ use Dazzle::Raw::Dock::Item;
 #use Dazzle::Dock::Manager;
 
 use GIO::Roles::Icon;
+use Dazzle::Roles::Signals::Dock::Item;
 
 our subset DzlDockItemAncestry is export of Mu
   where DzlDockItem | GObject;
 
 role Dazzle::Roles::Dock::Item {
+  also does Dazzle::Roles::Signals::Dock::Item;
+
   has DzlDockItem $!ddi is implementor;
 
   method roleInit-DzlDockItem {
@@ -22,6 +25,25 @@ role Dazzle::Roles::Dock::Item {
 
   method Dazzle::Raw::Definitions::DzlDockItem
   { $!ddi }
+
+  # Is originally:
+  # DzlDockItem *self --> void
+  method presented {
+    self.connect($!ddi, 'presented');
+  }
+
+  # Is originally:
+  # DzlDockItem *self,  DzlDockManager *old_manager --> void
+  method manager-set {
+    self.connect-manager-set($!ddi);
+  }
+
+  # Is originally:
+  # DzlDockItem *self --> void
+  method needs-attention {
+    self.connect($!ddi, 'needs-attention');
+  }
+
 
   method adopt (DzlDockItem() $child) {
     so dzl_dock_item_adopt($!ddi, $child);
