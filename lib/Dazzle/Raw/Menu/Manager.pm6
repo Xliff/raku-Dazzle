@@ -7,7 +7,7 @@ use GLib::Raw::Structs;
 use GIO::Raw::Definitions;
 use Dazzle::Raw::Definitions;
 
-unit package Dazzle::Raw::MenuManager;
+unit package Dazzle::Raw::Menu::Manager;
 
 ### /usr/src/libdazzle-3.42.0/src/menus/dzl-menu-manager.h
 

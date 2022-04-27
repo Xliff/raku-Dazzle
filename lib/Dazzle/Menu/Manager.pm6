@@ -3,7 +3,7 @@ use v6.c;
 use NativeCall;
 
 use Dazzle::Raw::Types;
-use Dazzle::Raw::MenuManager;
+use Dazzle::Raw::Menu::Manager;
 
 use GIO::Menu;
 
@@ -12,7 +12,7 @@ use GLib::Roles::Object;
 our subset DzlMenuManagerAncestry is export of Mu
   where DzlMenuManager | GObject;
 
-class Dazzle::MenuManager {
+class Dazzle::Menu::Manager {
   also does GLib::Roles::Object;
 
   has DzlMenuManager $!dmm;
