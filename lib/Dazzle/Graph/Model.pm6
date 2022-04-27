@@ -11,7 +11,7 @@ our subset DzlGraphModelAncestry is export of Mu
 class Dazzle::Graph::Model {
   also does GLib::Roles::Object;
 
-  has DzlGraphModel $!dgm;
+  has DzlGraphModel $!dgm is implementor;
 
   submethod BUILD ( :$dzl-graph-model ) {
     self.setDzlGraphModel($dzl-graph-model) if $dzl-graph-model;
@@ -22,7 +22,7 @@ class Dazzle::Graph::Model {
 
     $!dgm = do {
       when DzlGraphModel {
-        $to-parent = cast(DzlGraphModel, $_);
+        $to-parent = cast(GObject, $_);
         $_;
       }
 
@@ -31,7 +31,7 @@ class Dazzle::Graph::Model {
         cast(DzlGraphModel, $_)
       }
     }
-    self.setDzlGraphModel($to-parent);
+    self!setObject($to-parent);
   }
 
   method Dazzle::Raw::Definitions::DzlGraphModel
