@@ -35,6 +35,9 @@ class Dazzle::Menu::Button::Section is GTK::Box {
     self.setGtkBox($to-parent);
   }
 
+  method Dazzle::Raw::Definitions::DzlMenuButtonSection
+  { $!dmbs }
+
   multi method new (
     DzlMenuButtonSectionAncestry  $dzl-menu-button-section,
                                  :$ref                      = True
