@@ -16,6 +16,7 @@ class DzlAnimation          is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlApplication        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlApplicationWindow  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlBindingGroup       is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlDirectoryModel     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphColumn        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphModel         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphView          is repr<CPointer> does GLib::Roles::Pointers is export { }
