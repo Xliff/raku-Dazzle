@@ -1,10 +1,15 @@
 use v6.c;
 
+use NativeCall;
+
 use GLib::Raw::Definitions;
+use GLib::Raw::Structs;
+use GLib::Raw::Object;
+use GDK::Raw::Definitions;
 use Dazzle::Raw::Definitions;
+use Dazzle::Raw::Enums;
 
 unit package Dazzle::Raw::Animation;
-
 
 ### /usr/src/libdazzle-3.42.0/src/animation/dzl-animation.h
 
