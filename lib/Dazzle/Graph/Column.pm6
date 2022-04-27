@@ -13,7 +13,7 @@ our subset DzlGraphColumnAncestry is export of Mu
 class Dazzle::Graph::Column {
   also does GLib::Roles::Object;
 
-  has DzlGraphColumn $!dgc;
+  has DzlGraphColumn $!dgc is implementor;
 
   submethod BUILD ( :$dzl-graph-column ) {
     self.setDzlGraphColumn($dzl-graph-column) if $dzl-graph-column;
