@@ -92,8 +92,8 @@ our enum DzlTreeDropPositionEnum is export (
   DZL_TREE_DROP_AFTER  => 2,
 );
 
-constant Dzlanimationmode is export := guint32;
-our enum DzlanimationmodeEnum is export <
+constant DzlAnimationMode is export := guint32;
+our enum DzlAnimationModeEnum is export <
   DZL_ANIMATION_LINEAR
   DZL_ANIMATION_EASE_IN_QUAD
   DZL_ANIMATION_EASE_OUT_QUAD
