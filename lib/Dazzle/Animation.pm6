@@ -1,5 +1,6 @@
 use v6.c;
 
+use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 use Dazzle::Raw::Animation;
 
@@ -22,9 +23,9 @@ class Dazzle::Animation {
   method setDzlAnimation (DzlAnimationAncestry $_) {
     my $to-parent;
 
-    $!dgm = do {
+    $!da = do {
       when DzlAnimation {
-        $to-parent = cast(DzlAnimation, $_);
+        $to-parent = cast(GObject, $_);
         $_;
       }
 
@@ -33,11 +34,11 @@ class Dazzle::Animation {
         cast(DzlAnimation, $_)
       }
     }
-    self.setDzlAnimation($to-parent);
+    self!setObject($to-parent);
   }
 
   method Dazzle::Raw::Definitions::DzlAnimation
-  { $!dgm }
+  { $!da }
 
   multi method new (DzlAnimationAncestry $dzl-animation, :$ref = True) {
     return Nil unless $dzl-animation;
@@ -79,7 +80,7 @@ class Dazzle::Animation {
 
   # Type: DzlAnimationMode
   method mode is rw  {
-    my $gv = GLib::Value.new( GLib::Value.typeFromEnum(DzlAnimationMode) );
+    my $gv = GLib::Value.new( GLib::Value.gtypeFromEnum(DzlAnimationMode) );
     Proxy.new(
       FETCH => sub ($) {
         warn 'mode does not allow reading' if $DEBUG;
@@ -125,41 +126,31 @@ class Dazzle::Animation {
     dzl_animation_add_property($!da, $pspec, $value);
   }
 
-  method calculate_duration (Num() $from_value, Num() $to_value) {
+  method calculate_duration (
+    GdkFrameClock() $fc,
+    Num()           $from_value,
+    Num()           $to_value
+  )
+    is static
+  {
     my gdouble ($f, $t) = ($from_value, $to_value);
 
-    dzl_animation_calculate_duration($!da, $f, $t);
+    dzl_animation_calculate_duration($fc, $f, $t);
   }
 
-  proto method animate (|)
-    is static
-  { * }
-
-  # cw: Not quite. See comment in raw compunit!
-  #
-  # multi method animate (
-  #   Int()           $mode,
-  #   Int()           $duration_msec,
-  #   GdkFrameClock() $frame_clock,
-  #   Str             $properties
-  # ) {
-  #   samewith(
-  #     $mode,
-  #     $duration_msec,
-  #     $frame_clock,
-  #     ArrayToCArray(Str, $properties.Array, :null)
-  #   );
-  # }
-  multi method animate (
+  method animate (
     GObject()       $object,
     Int()           $mode,
     Int()           $duration_msec,
     GdkFrameClock() $frame_clock,
                     *@properties
   ) {
+    my DzlAnimationMode $m = $mode;
+    my guint            $d = $duration_msec;
+
     my $dzl-animation = dzl_object_animate($object, $m, $d, $frame_clock, Str);
 
-    $dzl-animaion = $dzl-animation ?? self.bless( :$dzl-animation ) !! Nil;
+    $dzl-animation = $dzl-animation ?? self.bless( :$dzl-animation ) !! Nil;
 
     return Nil            unless $dzl-animation;
     return $dzl-animation unless @properties;
@@ -181,21 +172,6 @@ class Dazzle::Animation {
 
     $dzl-animation
   }
-
-
-  # multi method animate (
-  #   Int()           $mode,
-  #   Int()           $duration_msec,
-  #   GdkFrameClock() $frame_clock,
-  #   CArray[Str]     $properties       # Null terminated!
-  # ) {
-  #   my DzlAnimationMode $m = $mode;
-  #   my guint            $d = $duration_msec;
-  #
-  #   my $dzl-animation = dzl_object_animate($m, $d, $frame_clock, $properties);
-  #
-  #   $dzl-animation ?? self.bless( :$dzl-animation ) !! Nil;
-  # }
 
   method mode_get_type {
     DzlAnimationModeEnum( dzl_animation_mode_get_type() )
