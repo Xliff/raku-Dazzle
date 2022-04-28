@@ -15,6 +15,7 @@ constant dazzle is export = 'dazzle-1.0',v0;
 class DzlAnimation          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlApplication        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlApplicationWindow  is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlBin                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlBindingGroup       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDirectoryModel     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDock               is repr<CPointer> does GLib::Roles::Pointers is export { }
