@@ -1,10 +1,15 @@
 use v6.c;
 
+use Method::Also;
+
 use Dazzle::Raw::Types;
 
 use GTK::EventBox;
 
 use GLib::Roles::Signals::Generic;
+
+our subset DzlDockOverlayAncestry is export of Mu
+  where DzlDockOverlay | GtkEventBoxAncestry;
 
 class Dazzle::Dock::Overlay is GTK::EventBox {
   also does GLib::Roles::Signals::Generic;
@@ -65,7 +70,7 @@ class Dazzle::Dock::Overlay is GTK::EventBox {
     );
   }
 
-  method hide-edges {
+  method hide-edges is also<hide_edges> {
     self.connect($!ddo, 'hide-edges');
   }
 
@@ -74,7 +79,7 @@ class Dazzle::Dock::Overlay is GTK::EventBox {
     my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
     Proxy.new(
       FETCH => sub ($) {
-        self.prop_get('revealed', $gv)
+        self.prop_get('revealed', $gv);
         $gv.boolean;
       },
       STORE => -> $, Int() $val is copy {
@@ -83,11 +88,11 @@ class Dazzle::Dock::Overlay is GTK::EventBox {
     );
   }
 
-  method add_child (GtkWidget() $child, Str() $type) {
+  method add_child (GtkWidget() $child, Str() $type) is also<add-child> {
     dzl_overlay_add_child($!ddo, $child, $type);
   }
 
-  method get_edge (Int() $position, :$raw = False) {
+  method get_edge (Int() $position, :$raw = False) is also<get-edge> {
     my GtkPositionType $p = $position;
 
     propReturnObject(
