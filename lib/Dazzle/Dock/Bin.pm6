@@ -6,13 +6,17 @@ use Dazzle::Raw::Dock::Bin;
 use GTK::Container;
 use GTK::Widget;
 
+use Dazzle::Roles::Dock::Item;
+
 our subset DzlDockBinAncestry is export of Mu
-  where DzlDockBin | GtkContainerAncestry;
+  where DzlDockBin | DzlDockItem | DzlDock | GtkContainerAncestry;
 
 class Dazzle::Dock::Bin is GTK::Container {
+  also does Dazzle::Roles::Dock::Item;
+
   has DzlDockBin $!ddb is implementor;
 
-  submethod BUILD (:$dzl-dock-bin) {
+  submethod BUILD ( :$dzl-dock-bin ) {
     self.setDzlDockBin($dzl-dock-bin) if $dzl-dock-bin;
   }
 
@@ -24,12 +28,19 @@ class Dazzle::Dock::Bin is GTK::Container {
         $_;
       }
 
+      when DzlDockItem {
+        $to-parent = cast(GtkContainer, $_);
+        $!ddi      = $_;
+        cast(DzlDockBin, $_);
+      }
+
       default {
         $to-parent = $_;
         cast(DzlDockBin, $_);
       }
     }
     self.setContainer($to-parent);
+    self.roleInit-DzlDockItem;
   }
 
   method Dazzle::Raw::Definitions::DzlDockBin
