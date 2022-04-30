@@ -70,6 +70,13 @@ our enum DzlSliderPositionEnum is export <
   DZL_SLIDER_LEFT
 >;
 
+constant DzlTabStyle is export := guint32;
+our enum DzlTabStyleEnum is export (
+  DZL_TAB_TEXT  => 1 +< 0,
+  DZL_TAB_ICONS => 1 +< 1,
+  DZL_TAB_BOTH  => 1 +| 2   #= (DZL_TAB_TEXT | DZL_TAB_ICONS),
+);
+
 constant DzlThreeGridColumn is export := guint32;
 our enum DzlThreeGridColumnEnum is export <
   DZL_THREE_GRID_COLUMN_LEFT
