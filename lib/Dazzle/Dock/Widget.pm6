@@ -8,12 +8,46 @@ use Dazzle::Bin;
 
 use Dazzle::Roles::Dock::Item;
 
+our subset DzlDockWidgetAncestry is export of Mu
+  where DzlDockWidget | DzlBinAncestry;
+
 class Dazzle::Dock::Widget is Dazzle::Bin {
   also does Dazzle::Roles::Dock::Item;
 
-  has DzlDockWidget $!ddw;
+  has DzlDockWidget $!ddw is implementor;
 
-  method new {
+  submethod BUILD ( :$dzl-dock-widget ) {
+    self.setDzlDockWidget($dzl-dock-widget) if $dzl-dock-widget;
+  }
+
+  method setDzlDockWidget (DzlDockWidgetAncestry $_) {
+    my $to-parent;
+
+    $!ddw = do {
+      when DzlDockWidget {
+        $to-parent = cast(DzlBin, $_);
+        $_;
+      }
+
+      default {
+        $to-parent = $_;
+        cast(DzlDockWidget, $_);
+      }
+    }
+    self.setDzlBin($to-parent);
+  }
+
+  method Dazzle::Raw::Definitions::DzlDockWidget
+  { $!ddw }
+
+  multi method new (DzlDockWidgetAncestry $dzl-dock-widget, :$ref = True) {
+    return Nil unless $dzl-dock-widget;
+
+    my $o = self.bless( :$dzl-dock-widget );
+    $o.ref if $ref;
+    $o;
+  }
+  multi method new {
     my $dzl-dock-widget = dzl_dock_widget_new();
 
     $dzl-dock-widget ?? self.bless( :$dzl-dock-widget ) !! Nil;
