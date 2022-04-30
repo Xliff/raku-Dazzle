@@ -33,6 +33,7 @@ class DzlPreferencesFlowBox is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlMenuManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButton         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlDockRevealer       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSignalGroup        is repr<CPointer> does GLib::Roles::Pointers is export { }
 
