@@ -39,6 +39,7 @@ class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlDockRevealer       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSignalGroup        is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlTab                is repr<CPointer> does GLib::Roles::Pointers is export { }
 
 class DazzleGraphView       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DazzleCPUGraph        is repr<CPointer> does GLib::Roles::Pointers is export { }
