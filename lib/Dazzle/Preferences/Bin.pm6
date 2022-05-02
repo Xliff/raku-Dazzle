@@ -25,21 +25,21 @@ class Dazzle::Preferences::Bin is GTK::Bin {
     my $to-parent;
 
     $!dpb = do {
-      when DzlBin  {
+      when DzlPreferencesBin  {
         $to-parent = cast(GtkBin, $_);
         $_;
       }
 
       default {
         $to-parent = $_;
-        cast(DzlBin, $_);
+        cast(DzlPreferencesBin, $_);
       }
     }
     self.setGtkBin($to-parent);
   }
 
-  method Dazzle::Raw::Definitions::DzlBin
-    is also<DzlBin>
+  method Dazzle::Raw::Definitions::DzlPreferencesBin
+    is also<DzlPreferencesBin>
   { $!dpb }
 
   method new (
