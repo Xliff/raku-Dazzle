@@ -74,3 +74,10 @@ class DzlGraphLineRenderer is repr<CStruct> does GLib::Roles::Pointers is export
 
   method line_width is rw { $!line-width }
 }
+
+class DzlPatternSpec is repr<CStruct> does GLib::Roles::Pointers is export {
+  has gint        $!ref-count;
+  has Str         $!needle;
+  has CArray[Str] $!parts;
+  has guint       $!flags;
+}
