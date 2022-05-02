@@ -4,9 +4,10 @@ use NativeCall;
 
 use Dazzle::Raw::Types;
 
+use GTK::Widget;
 use Dazzle::Preferences::Bin;
 
-our subset DzlPreferenceEntryAncestry is export of Mu
+our subset DzlPreferencesEntryAncestry is export of Mu
   where DzlPreferencesEntry | DzlPreferencesBinAncestry;
 
 class Dazzle::Preferences::Entry is Dazzle::Preferences::Bin {
