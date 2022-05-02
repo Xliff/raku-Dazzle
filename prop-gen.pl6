@@ -109,7 +109,7 @@ READ
 
   %methods{$mn} = qq:to/METH/;
     # Type: { $*types }
-    method $mn is rw { $deprecated } \{
+    method $mn is rw { $deprecated } is g-property \{
       my \$gv = GLib::Value.new( { $gtype } );
       Proxy.new(
         FETCH => sub (\$) \{
