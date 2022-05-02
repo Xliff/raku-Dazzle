@@ -9,10 +9,12 @@ use Dazzle::Raw::Types;
 use GLib::Roles::Object;
 
 our subset DzlPathElementAncestry is export of Mu
-  where DslPathElement | GObject;
+  where DzlPathElement | GObject;
 
 class Dazzle::Path::Element {
   also does GLib::Roles::Object;
+
+  has DzlPathElement $!dpe is implementor;
 
   submethod BUILD (:$dzl-path-element) {
     self.setDzlPathElement($dzl-path-element) if $dzl-path-element;
@@ -22,7 +24,7 @@ class Dazzle::Path::Element {
     my $to-parent;
 
     $!dpe = do {
-      where DzlPathElement {
+      when DzlPathElement {
         $to-parent = cast(GObject, $_);
         $_;
       }
@@ -38,14 +40,14 @@ class Dazzle::Path::Element {
   method Dazzle::Raw::Definitions::DzlPathElement
   { $!dpe }
 
-  multi method new (DzlPathElementAncestry $dzl-path-element, :$raw = True) {
+  multi method new (DzlPathElementAncestry $dzl-path-element, :$ref = True) {
     return Nil unless $dzl-path-element;
 
     my $o = self.bless( :$dzl-path-element );
     $o.ref if $ref;
     $o;
   }
-  method new (Str() $id, Str() $icon_name, Str() $title) {
+  multi method new (Str() $id, Str() $icon_name, Str() $title) {
     my $dzl-path-element = dzl_path_element_new($id, $icon_name, $title);
 
     $dzl-path-element ?? self.bless( :$dzl-path-element ) !! Nil;
