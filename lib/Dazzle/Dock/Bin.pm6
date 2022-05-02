@@ -39,7 +39,7 @@ class Dazzle::Dock::Bin is GTK::Container {
         cast(DzlDockBin, $_);
       }
     }
-    self.setContainer($to-parent);
+    self.setGtkContainer($to-parent);
     self.roleInit-DzlDockItem;
   }
 
