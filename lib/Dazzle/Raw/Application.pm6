@@ -3,6 +3,8 @@ use v6.c;
 use NativeCall;
 
 use GLib::Raw::Definitions;
+use GIO::Raw::Definitions;
+use GIO::Raw::Enums;
 use Dazzle::Raw::Definitions;
 
 unit package Dazzle::Raw::Application;
