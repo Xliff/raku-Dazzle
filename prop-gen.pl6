@@ -98,7 +98,7 @@ sub genSub ($mn, $rw, $gtype, $dep, $vtype-r, $vtype-w) {
   # Read warnings should appear behind a DEBUG sentinel.
   %c<read>  //= qq:to/READ/;
 warn '{ $mn } does not allow reading' if \$DEBUG;
-{ $gtype eq 'G_TYPE_STRING' ?? "''" !! ' ' x 6 ~ '0' };
+{ ' ' x 6 }{ $gtype eq 'G_TYPE_STRING' ?? "''" !! '0' };
 READ
 
   my $deprecated = '';
@@ -213,7 +213,8 @@ sub generateFromFile (
       $control.IO.extension('h').IO.slurp;
 
     my token start-decls {
-      'G_DECLARE_FINAL_TYPE' | 'G_DECLARE_DERIVABLE_TYPE'
+      'G_DECLARE_FINAL_TYPE'    | 'G_DECLARE_DERIVABLE_TYPE'
+      'G_DEFINE_TYPE_WITH_CODE'
     }
 
     my $search = $contents ~~ /
@@ -242,7 +243,7 @@ sub generateFromFile (
   my %properties;
   for $search[] {
 
-    #.gist.say;
+    .gist.say;
 
     my $prop-name = .<p>[0].Str;
     my $rw = .<p>.tail
@@ -254,9 +255,11 @@ sub generateFromFile (
                                     .subst('able', '')
                                     .subst('_only', '')
                                     .map({
-                                      $_ ~~ / 'writ' ')'?/  ?? 'write' !! $_
+                                      S/ 'writ'» /write/;
                                     });
 
+                    $rw-mapped.push('read')        if $rw-mapped eq 'read';
+                    $rw-mapped.push('write')       if $rw-mapped eq 'write';
                     $rw-mapped = ('read', 'write') if $rw-mapped eq 'readwrite';
 
                     |$rw-mapped;
