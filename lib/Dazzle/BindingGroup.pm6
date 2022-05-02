@@ -20,8 +20,8 @@ class Dazzle::BindingGroup {
   method setDzlBindingGroup (DzlBindingGroupAncestry $_) {
     my $to-parent;
 
-    $!dgr = do {
-      where DzlBindingGroup {
+    $!dbg = do {
+      when DzlBindingGroup {
         $to-parent = cast(GObject, $_);
         $_;
       }
@@ -37,7 +37,7 @@ class Dazzle::BindingGroup {
   method Dazzle::Raw::Definitions::DzlBindingGroup
   { $!dbg }
 
-  multi method new (DzlBindingGroupAncestry $dzl-binding-group, :$raw = True) {
+  multi method new (DzlBindingGroupAncestry $dzl-binding-group, :$ref = True) {
     return Nil unless $dzl-binding-group;
 
     my $o = self.bless( :$dzl-binding-group );
