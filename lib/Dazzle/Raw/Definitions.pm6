@@ -32,15 +32,19 @@ class DzlGraphModel         is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlGraphView          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphRenderer      is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlJoinedMenu         is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlPath               is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlPathElement        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesFlowBox is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButton         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockRevealer       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlShortcutManager    is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSignalGroup        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTab                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTabStrip           is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlThemeManager       is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockTransientGrab  is repr<CPointer> does GLib::Roles::Pointers is export { }
 
 class DazzleGraphView       is repr<CPointer> does GLib::Roles::Pointers is export { }
