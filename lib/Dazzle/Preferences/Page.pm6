@@ -23,7 +23,7 @@ class Dazzle::Preferences::Page is GTK::Bin {
     my $to-parent;
 
     $!dpp = do {
-      when DzlBin  {
+      when DzlPreferencesPage {
         $to-parent = cast(GtkBin, $_);
         $_;
       }
