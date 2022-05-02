@@ -1,5 +1,6 @@
 use v6.c;
 
+use Method::Also;
 use NativeCall;
 
 use Dazzle::Raw::Types;
@@ -8,7 +9,7 @@ use GTK::Bin;
 
 use GLib::Roles::Signals::Generic;
 
-our subset DzlPreferencesdBinAncestry is export of Mu
+our subset DzlPreferencesBinAncestry is export of Mu
   where DzlPreferencesBin | GtkBinAncestry;
 
 class Dazzle::Preferences::Bin is GTK::Bin {
@@ -20,10 +21,10 @@ class Dazzle::Preferences::Bin is GTK::Bin {
     self.setDzlPreferencesBin($dzl-preferences-bin) if $dzl-preferences-bin;
   }
 
-  method setDzlPreferencesBin (DzlPreferencesdBinAncestry $_) {
+  method setDzlPreferencesBin (DzlPreferencesBinAncestry $_) {
     my $to-parent;
 
-    $!db = do {
+    $!dpb = do {
       when DzlBin  {
         $to-parent = cast(GtkBin, $_);
         $_;
@@ -39,11 +40,11 @@ class Dazzle::Preferences::Bin is GTK::Bin {
 
   method Dazzle::Raw::Definitions::DzlBin
     is also<DzlBin>
-  { $!db }
+  { $!dpb }
 
   method new (
-    DzlPreferencesdBinAncestry  $dzl-preferences-bin,
-                               :$ref                  = True
+    DzlPreferencesBinAncestry  $dzl-preferences-bin,
+                              :$ref                  = True
   ) {
     return Nil unless $dzl-preferences-bin;
 
@@ -95,7 +96,7 @@ class Dazzle::Preferences::Bin is GTK::Bin {
   }
 
   # Type: string
-  method schema-id is rw  {
+  method schema-id is rw  is also<schema_id> {
     my $gv = GLib::Value.new( G_TYPE_STRING );
     Proxy.new(
       FETCH => sub ($) {
@@ -108,8 +109,8 @@ class Dazzle::Preferences::Bin is GTK::Bin {
     );
   }
 
-  method prefernces-activated {
-    self.connect($!dpb, 'prefernces-activated');
+  method preferences-activated is also<preferences_activated> {
+    self.connect($!dpb, 'preferences-activated');
   }
 
 }
