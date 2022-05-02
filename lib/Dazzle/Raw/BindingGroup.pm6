@@ -1,7 +1,11 @@
 use v6.c;
 
+use NativeCall;
+
 use GLib::Raw::Definitions;
 use GLib::Raw::Enums;
+use GLib::Raw::Object;
+use GLib::Raw::Structs;
 use Dazzle::Raw::Definitions;
 
 unit package Dazzle::Raw::BindingGroup;
