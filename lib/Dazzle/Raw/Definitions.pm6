@@ -39,6 +39,7 @@ class DzlPathElement        is repr<CPointer> does GLib::Roles::Pointers is expo
 class DzlPreferencesBin     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesEntry   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesFlowBox is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlPreferencesGroup   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuManager        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButton         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButtonSection  is repr<CPointer> does GLib::Roles::Pointers is export { }
