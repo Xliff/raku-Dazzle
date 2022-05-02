@@ -13,7 +13,7 @@ use GLib::Roles::Signals::Generic;
 use GTK::Roles::Actionable;
 
 our subset DzlTabAncestry is export of Mu
-  where DzlTab | DzlBinAncestry;
+  where DzlTab | GtkActionable | DzlBinAncestry;
 
 class Dazzle::Tab is Dazzle::Bin {
   also does GLib::Roles::Signals::Generic;
@@ -34,12 +34,19 @@ class Dazzle::Tab is Dazzle::Bin {
         $_;
       }
 
+      when GtkActionable {
+        $to-parent = cast(DzlBin, $_);
+        $!action   = $_;
+        cast(DzlTab, $_);
+      }
+
       default {
         $to-parent = $_;
         cast(DzlTab, $_);
       }
     }
     self.setDzlBin($to-parent);
+    self.roleInit-GtkActionable;
   }
 
   method Dazzle::Raw::Definitions::DzlTab
