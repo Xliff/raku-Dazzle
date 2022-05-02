@@ -4,6 +4,9 @@ use Dazzle::Raw::Types;
 
 use Dazzle::Preferences::Bin;
 
+our subset DzlPreferencesFlowBoxAncestry is export of Mu
+  where DzlPreferencesFlowBox | DzlPreferencesBinAncestry;
+
 class Dazzle::Preferences::FlowBox is Dazzle::Preferences::Bin {
   has DzlPreferencesFlowBox $!dpfb is implementor;
 
