@@ -2,6 +2,7 @@ use v6.c;
 
 use NativeCall;
 
+use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 
 use GTK::Widget;
@@ -21,8 +22,8 @@ class Dazzle::ApplicationWindow is GTK::ApplicationWindow {
   method setDzlApplicationWindow (DzlApplicationWindowAncestry $_) {
     my $to-parent;
 
-    $!dgr = do {
-      where DzlApplicationWindow {
+    $!daw = do {
+      when DzlApplicationWindow {
         $to-parent = cast(GtkApplicationWindow, $_);
         $_;
       }
@@ -35,9 +36,12 @@ class Dazzle::ApplicationWindow is GTK::ApplicationWindow {
     self.setGtkApplicationWindow($to-parent);
   }
 
+  method Dazzle::Raw::Definitions::DzlApplicationWindow
+  { $!daw }
+
   multi method new (
     DzlApplicationWindowAncestry  $dzl-application-window,
-                                 :$raw = True
+                                 :$ref                     = True
   ) {
     return Nil unless $dzl-application-window;
 
@@ -96,6 +100,12 @@ class Dazzle::ApplicationWindow is GTK::ApplicationWindow {
     )
   }
 
+  method get_type is static {
+    state ($n, $t);
+
+    unstable_get_type( self.^name, &dzl_application_window_get_type, $n, $t );
+  }
+
   method set_fullscreen (Int() $fullscreen) {
     my gboolean $f = $fullscreen.so.Int;
 
@@ -140,6 +150,14 @@ sub dzl_application_window_set_titlebar (
   DzlApplicationWindow $self,
   GtkWidget            $titlebar
 )
+  is native(dazzle)
+  is export
+{ * }
+
+# Derived
+
+sub dzl_application_window_get_type ()
+  returns GType
   is native(dazzle)
   is export
 { * }
