@@ -13,11 +13,11 @@ our subset DzlBinAncestry is export of Mu
 class Dazzle::Bin is GTK::Bin {
   has DzlBin $!db is implementor;
 
-  submethod BUILD( :$dzl-bin ) {
-    self.setDzlDockOverlay($dzl-bin) if $dzl-bin;
+  submethod BUILD ( :$dzl-bin ) {
+    self.setDzlBin($dzl-bin) if $dzl-bin;
   }
 
-  method setDzlDockOverlay (DzlBinAncestry $_) {
+  method setDzlBin (DzlBinAncestry $_) {
     my $to-parent;
 
     $!db = do {
@@ -34,7 +34,7 @@ class Dazzle::Bin is GTK::Bin {
     self.setGtkBin($to-parent);
   }
 
-  method GTK::Raw::Definitions::DzlBin
+  method Dazzle::Raw::Definitions::DzlBin
     is also<DzlBin>
   { $!db }
 
