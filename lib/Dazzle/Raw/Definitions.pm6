@@ -43,6 +43,7 @@ class DzlPreferencesFileChooserButton is repr<CPointer> does GLib::Roles::Pointe
 class DzlPreferencesFlowBox           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesGroup             is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesSpinButton        is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlPreferencesSwitch            is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPreferencesView              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuManager                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlMenuButton                   is repr<CPointer> does GLib::Roles::Pointers is export { }
