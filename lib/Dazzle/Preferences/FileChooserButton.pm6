@@ -26,7 +26,7 @@ class Dazzle::Preferences::FileChooserButton is GTK::Bin {
     my $to-parent;
 
     $!dpfcb = do {
-      when DzlBin  {
+      when DzlPreferencesFileChooserButton  {
         $to-parent = cast(GtkBin, $_);
         $_;
       }
