@@ -53,6 +53,7 @@ class DzlDockRevealer                 is repr<CPointer> does GLib::Roles::Pointe
 class DzlShortcutContext              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChord                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable           is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlShortcutsGroup               is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutManager              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutTheme                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutTooltip              is repr<CPointer> does GLib::Roles::Pointers is export { }
