@@ -56,12 +56,49 @@ class DzlShortcutChordTableIter is repr<CStruct> is export {
 
 class DzlShortcutEntry is repr<CStruct> is export {
 	has Str              $!command      ;
-	has DzlShortcutPhase $!phase        ;
+	has DzlShortcutPhase $.phase          is rw;
 	has Str              $!default_accel;
 	has Str              $!section      ;
 	has Str              $!group        ;
 	has Str              $!title        ;
 	has Str              $!subtitle     ;
+
+	method command is rw {
+		Proxy.new:
+			FETCH => -> $           { $!command       },
+			STORE => -> $, Str() $v { $!command := $v }
+	}
+
+	method default_accel is rw {
+		Proxy.new:
+			FETCH => -> $           { $!default_accel       },
+			STORE => -> $, Str() $v { $!default_accel := $v }
+	}
+
+	method section is rw {
+		Proxy.new:
+			FETCH => -> $           { $!section       },
+			STORE => -> $, Str() $v { $!section := $v }
+	}
+
+	method group is rw {
+		Proxy.new:
+			FETCH => -> $           { $!group       },
+			STORE => -> $, Str() $v { $!group := $v }
+	}
+
+	method title is rw {
+		Proxy.new:
+			FETCH => -> $           { $!title       },
+			STORE => -> $, Str() $v { $!title := $v }
+	}
+
+	method subtitle is rw {
+		Proxy.new:
+			FETCH => -> $           { $!subtitle       },
+			STORE => -> $, Str() $v { $!subtitle := $v }
+	}
+
 }
 
 class DzlShortcutNodeData is repr<CStruct> is export {
