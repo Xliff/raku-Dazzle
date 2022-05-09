@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 use Dazzle::Raw::Shortcut::Tooltip;
@@ -15,7 +17,7 @@ our subset DzlShortcutTooltipAncestry is export of Mu
 class Dazzle::Shortcut::Tooltip {
   also does GLib::Roles::Object;
 
-  has DzlShortcutTooltip is implementor;
+  has DzlShortcutTooltip $!dst is implementor;
 
   submethod BUILD (:$dzl-shortcut-tooltip) {
     self.setDzlShortcutTooltip($dzl-shortcut-tooltip) if $dzl-shortcut-tooltip;
@@ -58,7 +60,7 @@ class Dazzle::Shortcut::Tooltip {
   }
 
   # Type: string
-  method command-id is rw  is g-property {
+  method command-id is rw  is g-property is also<command_id> {
     my $gv = GLib::Value.new( G_TYPE_STRING );
     Proxy.new(
       FETCH => sub ($) {
@@ -88,7 +90,7 @@ class Dazzle::Shortcut::Tooltip {
   }
 
   # Type: GtkWidget
-  method widget ( :$raw = False, $widget = False ) is rw is g-property {
+  method widget ( :$raw = False, :$widget = False ) is rw is g-property {
     my $gv = GLib::Value.new( GTK::Widget.get_type );
     Proxy.new(
       FETCH => sub ($) {
@@ -124,19 +126,19 @@ class Dazzle::Shortcut::Tooltip {
                           !! Nil;
   }
 
-  method get_accel {
+  method get_accel is also<get-accel> {
     dzl_shortcut_tooltip_get_accel($!dst);
   }
 
-  method get_command_id {
+  method get_command_id is also<get-command-id> {
     dzl_shortcut_tooltip_get_command_id($!dst);
   }
 
-  method get_title {
+  method get_title is also<get-title> {
     dzl_shortcut_tooltip_get_title($!dst);
   }
 
-  method get_widget ( :$raw = False, :$widget = False ) {
+  method get_widget ( :$raw = False, :$widget = False ) is also<get-widget> {
     ReturnWidget(
       dzl_shortcut_tooltip_get_widget($!dst),
       $raw,
@@ -144,19 +146,19 @@ class Dazzle::Shortcut::Tooltip {
     );
   }
 
-  method set_accel (Str() $accel) {
+  method set_accel (Str() $accel) is also<set-accel> {
     dzl_shortcut_tooltip_set_accel($!dst, $accel);
   }
 
-  method set_command_id (Str() $command_id) {
+  method set_command_id (Str() $command_id) is also<set-command-id> {
     dzl_shortcut_tooltip_set_command_id($!dst, $command_id);
   }
 
-  method set_title (Str() $title) {
+  method set_title (Str() $title) is also<set-title> {
     dzl_shortcut_tooltip_set_title($!dst, $title);
   }
 
-  method set_widget (GtkWidget() $widget) {
+  method set_widget (GtkWidget() $widget) is also<set-widget> {
     dzl_shortcut_tooltip_set_widget($!dst, $widget);
   }
 
