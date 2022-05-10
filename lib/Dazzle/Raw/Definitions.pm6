@@ -55,6 +55,7 @@ class DzlShortcutController           is repr<CPointer> does GLib::Roles::Pointe
 class DzlShortcutChord                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutsGroup               is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlShortcutLabel                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutManager              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutModel                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutSimpleLabel          is repr<CPointer> does GLib::Roles::Pointers is export { }
