@@ -51,6 +51,7 @@ class DzlMenuButton                   is repr<CPointer> does GLib::Roles::Pointe
 class DzlMenuButtonSection            is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockRevealer                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutContext              is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlShortcutController           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChord                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutsGroup               is repr<CPointer> does GLib::Roles::Pointers is export { }
