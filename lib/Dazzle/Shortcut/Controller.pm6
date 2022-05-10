@@ -69,6 +69,12 @@ class Dazzle::Shortcut::Controller {
 
     $dzl-shortcut-controller ?? self.bless( :$dzl-shortcut-controller ) !! Nil;
   }
+  method try_find (GtkWidget() $w, :$raw = False) is static is also<try-find> {
+    my $dzl-shortcut-controller = dzl_shortcut_controller_try_find($w);
+
+    $dzl-shortcut-controller ?? self.bless( :$dzl-shortcut-controller ) !! Nil;
+  }
+
 
   # Type: DzlShortcutContext
   method context ( :$raw = False ) is rw  is g-property {
@@ -260,11 +266,6 @@ class Dazzle::Shortcut::Controller {
 
   method set_manager (DzlShortcutManager() $manager) is also<set-manager> {
     dzl_shortcut_controller_set_manager($!dsc, $manager);
-  }
-
-  # cw: Return type?!
-  method try_find (GtkWidget() $w) is also<try-find> {
-    dzl_shortcut_controller_try_find($w);
   }
 
 }
