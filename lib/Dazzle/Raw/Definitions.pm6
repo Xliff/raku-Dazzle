@@ -66,6 +66,7 @@ class DzlStateMachine                 is repr<CPointer> does GLib::Roles::Pointe
 class DzlSignalGroup                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSuggestion                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSuggestionEntry              is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlSuggestionEntryBuffer        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSuggestionPopover            is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTab                          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTabStrip                     is repr<CPointer> does GLib::Roles::Pointers is export { }
