@@ -74,6 +74,7 @@ class DzlTab                          is repr<CPointer> does GLib::Roles::Pointe
 class DzlTabStrip                     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlThemeManager                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTree                         is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlTreeBuilder                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTreeNode                     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockTransientGrab            is repr<CPointer> does GLib::Roles::Pointers is export { }
 
