@@ -27,6 +27,7 @@ class DzlDockOverlay                  is repr<CPointer> does GLib::Roles::Pointe
 class DzlDockOverlayEdge              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockStack                    is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockWidget                   is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlFuzzyIndex                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockWindow                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphColumn                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphModel                   is repr<CPointer> does GLib::Roles::Pointers is export { }
