@@ -1,0 +1,57 @@
+use v6.c;
+
+use Dazzle::Raw::Types;
+use Dazzle::Raw::Shortcut::ClosureChain;
+
+# cw: Is this even a part of the public api
+
+class Dazzle::Shortcut::ClosureChain {
+   has DzlShortcutClosureChain $!dcc;
+
+   method append (DzlShortcutClosureChain() $link) {
+     dzl_shortcut_closure_chain_append($!dcc, $link);
+   }
+
+   method append_action (
+     Str() $group_name,
+     Str() $action_name,
+     GVariant() $params
+   ) {
+     dzl_shortcut_closure_chain_append_action(
+       $!dcc,
+       $group_name,
+       $action_name,
+       $params
+     );
+   }
+
+   method append_action_string (Str $detailed_action_name) {
+     dzl_shortcut_closure_chain_append_action_string($!dcc, $detailed_action_name);
+   }
+
+   method append_callback (
+      &callback,
+      gpointer $user_data = gpointer,
+      &notify             = Callable
+    ) {
+     dzl_shortcut_closure_chain_append_callback(
+      $!dcc,
+      &callback,
+      $user_data,
+      &notify
+    );
+   }
+
+   method append_signalv (Str() $signal_name, GArray() $params) {
+     dzl_shortcut_closure_chain_append_signalv($!dcc, $signal_name, $params);
+   }
+
+   method execute (GtkWidget() $widget) {
+     dzl_shortcut_closure_chain_execute($!dcc, $widget);
+   }
+
+   method free {
+     dzl_shortcut_closure_chain_free($!dcc);
+   }
+
+}
