@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use Dazzle::Raw::Types;
@@ -16,45 +18,77 @@ class Dazzle::Tree::Builder {
 
   has DzlTreeBuilder $!dtb is implementor;
 
-  method new {
+  submethod BUILD (:$dzl-tree-builder) {
+    self.setDzlTreeBuilder($dzl-tree-builder) if $dzl-tree-builder;
+  }
+
+  method setDzlTreeBuilder (DzlTreeBuilderAncestry $_) {
+    my $to-parent;
+
+    $!dtb = do {
+      when DzlTreeBuilder {
+        $to-parent = cast(GObject, $_);
+        $_;
+      }
+
+      default {
+        $to-parent = $_;
+        cast(DzlTreeBuilder, $_);
+      }
+    }
+    self!setObject($to-parent);
+  }
+
+  method Dazzle::Raw::Definitions::DzlTreeBuilder
+    is also<DzlTreeBuilder>
+  { $!dtb }
+
+  multi method new (DzlTreeBuilderAncestry $dzl-tree-builder, :$ref = True) {
+    return Nil unless $dzl-tree-builder;
+
+    my $o = self.bless( :$dzl-tree-builder );
+    $o.ref if $ref;
+    $o;
+  }
+  multi method new {
     my $dzl-tree-builder = dzl_tree_builder_new();
 
     $dzl-tree-builder ?? self.bless( :$dzl-tree-builder ) !! Nil;
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> void
-  method node-unselected {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> void
+  method node-unselected is also<node_unselected> {
     self.connect-node($!dtb, 'node-unselected');
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node,  GtkSelectionData *data --> gboolean
-  method drag-data-get {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node,  GtkSelectionData *data --> gboolean
+  method drag-data-get is also<drag_data_get> {
     self.connect-drag-data-get($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *drag_node,  DzlTreeNode *drop_node,  DzlTreeDropPosition position,  GdkDragAction action,  GtkSelectionData *data --> gboolean
-  method drag-node-received {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *drag_node,  DzlTreeBuilder *drop_node,  DzlTreeDropPosition position,  GdkDragAction action,  GtkSelectionData *data --> gboolean
+  method drag-node-received is also<drag_node_received> {
     self.connect-drag-node-received($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> void
-  method node-expanded {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> void
+  method node-expanded is also<node_expanded> {
     self.connect-node($!dtb, 'node-expanded');
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> void
-  method node-selected {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> void
+  method node-selected is also<node_selected> {
     self.connect-node($!dtb, 'node-selected');
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> gboolean
-  method node-activated {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> gboolean
+  method node-activated is also<node_activated> {
     self.connect-node-rbool($!dtb, 'node-activated');
   }
 
@@ -65,14 +99,14 @@ class Dazzle::Tree::Builder {
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *drop_node,  DzlTreeDropPosition position,  GdkDragAction action,  GtkSelectionData *data --> gboolean
-  method drag-data-received {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *drop_node,  DzlTreeDropPosition position,  GdkDragAction action,  GtkSelectionData *data --> gboolean
+  method drag-data-received is also<drag_data_received> {
     self.connect-drag-data-received($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> gboolean
-  method node-draggable {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> gboolean
+  method node-draggable is also<node_draggable> {
     self.connect-node-rbool($!dtb, 'node-draggable');
   }
 
@@ -83,42 +117,42 @@ class Dazzle::Tree::Builder {
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *parent --> void
-  method build-children {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *parent --> void
+  method build-children is also<build_children> {
     self.connect-node($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node,  GMenu *menu --> void
-  method node-popup {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node,  GMenu *menu --> void
+  method node-popup is also<node_popup> {
     self.connect-node-popup($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> void
-  method build-node {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> void
+  method build-node is also<build_node> {
     self.connect-node($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> void
-  method node-collapsed {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> void
+  method node-collapsed is also<node_collapsed> {
     self.connect-node($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node,  GtkSelectionData *data --> gboolean
-  method node-droppable {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node,  GtkSelectionData *data --> gboolean
+  method node-droppable is also<node_droppable> {
     self.connect-node-droppable($!dtb);
   }
 
   # Is originally:
-  # DzlTreeBuilder *builder,  DzlTreeNode *node --> gboolean
-  method drag-node-delete {
+  # DzlTreeBuilder *builder,  DzlTreeBuilder *node --> gboolean
+  method drag-node-delete is also<drag_node_delete> {
     self.connect-node-rbool($!dtb);
   }
 
-  method get_tree ( :$raw = False ) {
+  method get_tree ( :$raw = False ) is also<get-tree> {
     propReturnObject(
       dzl_tree_builder_get_tree($!dtb),
       $raw,
