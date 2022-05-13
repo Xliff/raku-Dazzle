@@ -1,26 +1,47 @@
 use v6.c;
 
+use NativeCall;
+
 use Dazzle::Raw::Types;
 use Dazzle::Raw::Ring;
 
 use GLib::Roles::Implementor;
 
 class Dazzle::Ring {
-  also does Positional;
   also does GLib::Roles::Implementor;
 
   has DzlRing $!dr is implementor;
+  has         $!es;
 
-  submethod BUILD ( :$dzl-ring ) {
+  # cw: Add a role that accepts the type and use that to provide the
+  #     positional interface.
+
+  submethod BUILD ( :$dzl-ring, :element_size(:$element-size) ) {
     $!dr = $dzl-ring;
+    $!es = $element-size;
   }
 
-  method sized_new (Int() $reserved_size, &element_destroy) {
+  method new (DzlRing $dzl-ring, $element-size, :$ref = True) {
+    return Nil unless $dzl-ring;
+
+    my $o = self.bless( :$dzl-ring, :$element-size );
+    $o.ref if $ref;
+    $o;
+  }
+  method sized_new (
+    Int() $element_size,
+    Int() $reserved_size,
+          &element_destroy
+  ) {
     my guint $r = $reserved_size;
 
-    my $dzl-ring = dzl_ring_sized_new($reserved_size, &element_destroy);
+    my $dzl-ring = dzl_ring_sized_new(
+      $element_size,
+      $reserved_size,
+      &element_destroy
+    );
 
-    $dzl-ring ?? self.bless( :$dzl-ring ) !! Nil;
+    $dzl-ring ?? self.bless( :$dzl-ring, :$element_size ) !! Nil;
   }
 
   method append_vals (gpointer $data, Int() $len) {
@@ -57,11 +78,7 @@ class Dazzle::Ring {
   }
 
   method get_index {
-    warn 'get_index currently NYI';
-  }
-
-  method AT-POS (\k) {
-    self.get_index(k)
+    Pointer.new( $!dr.data.p + self.index * $!es );
   }
 
 }
