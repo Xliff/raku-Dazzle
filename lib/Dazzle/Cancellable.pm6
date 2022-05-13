@@ -11,6 +11,7 @@ use GIO::Cancellable;
 augment class GIO::Cancellable {
 
   method chain (GCancellable() $other, :$raw = False) {
+
     propReturnObject(
       dzl_cancellable_chain(self.GCancellable, $other),
       $raw,
