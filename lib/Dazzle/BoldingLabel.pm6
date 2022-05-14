@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use Dazzle::Raw::Types;
@@ -34,6 +36,7 @@ class Dazzle::BoldingLabel is GTK::Label {
   }
 
   method Dazzle::Raw::Definitions::DzlBoldingLabel
+    is also<DzlBoldingLabel>
   { $!dbl }
 
   multi method new (DzlBoldingLabelAncestry $dzl-bolding-label, :$ref = True) {
@@ -49,19 +52,19 @@ class Dazzle::BoldingLabel is GTK::Label {
     dzl_bolding_label_new($label, $b);
   }
 
-  method new_with_mnemonic (Str $str, Int() $bold) {
+  method new_with_mnemonic (Str $str, Int() $bold) is also<new-with-mnemonic> {
     my gboolean $b = $bold.so.Int;
 
     dzl_bolding_label_new_with_mnemonic($str, $b);
   }
 
-  method set_bold (Int() $bold) {
+  method set_bold (Int() $bold) is also<set-bold> {
     my gboolean $b = $bold.so.Int;
 
     dzl_bolding_label_set_bold($!dbl, $b);
   }
 
-  method set_weight (Int() $weight) {
+  method set_weight (Int() $weight) is also<set-weight> {
     my PangoWeight $w = $weight;
 
     dzl_bolding_label_set_weight($!dbl, $w);
