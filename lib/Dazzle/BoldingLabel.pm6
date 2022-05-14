@@ -43,16 +43,16 @@ class Dazzle::BoldingLabel is GTK::Label {
     $o.ref if $ref;
     $o;
   }
-  multblmethod new (Int() $bold) {
+  multi method new (Str() $label, Int() $bold) {
     my gboolean $b = $bold.so.Int;
 
-    dzl_bolding_label_new($!dbl, $b);
+    dzl_bolding_label_new($label, $b);
   }
 
   method new_with_mnemonic (Str $str, Int() $bold) {
     my gboolean $b = $bold.so.Int;
 
-    dzl_bolding_label_new_with_mnemonic($!dbl, $str, $b);
+    dzl_bolding_label_new_with_mnemonic($str, $b);
   }
 
   method set_bold (Int() $bold) {
@@ -92,5 +92,3 @@ sub dzl_bolding_label_set_weight (DzlBoldingLabel $self, PangoWeight $weight)
   is native(dazzle)
   is export
 { * }
-
-}
