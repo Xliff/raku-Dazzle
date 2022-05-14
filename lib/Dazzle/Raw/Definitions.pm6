@@ -19,6 +19,7 @@ class DzlBin                          is repr<CPointer> does GLib::Roles::Pointe
 class DzlBindingGroup                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlBox                          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlBoldingLabel                 is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlCenteringBin                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlColumnLayout                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDirectoryModel               is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDock                         is repr<CPointer> does GLib::Roles::Pointers is export { }
