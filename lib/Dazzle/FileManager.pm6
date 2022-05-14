@@ -15,6 +15,7 @@ class Dazzle::FileManager {
     set_error($error);
     $rv;
   }
+
 }
 
 ### /usr/src/libdazzle-3.42.0/src/util/dzl-file-manager.h
