@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use MONKEY-TYPING;
 
 use Dazzle::Raw::Types;
@@ -15,43 +17,49 @@ augment class GTK::Widget {
     dzl_gtk_widget_action(self.GtkWidget, $group, $name, $param);
   }
 
-  method action_with_string (Str() $group, Str() $name, Str() $param) {
+  method action_with_string (Str() $group, Str() $name, Str() $param)
+    is also<action-with-string>
+  {
     dzl_gtk_widget_action_with_string(self.GtkWidget, $group, $name, $param);
   }
 
-  method add_style_class (Str() $class_name) {
+  method add_style_class (Str() $class_name) is also<add-style-class> {
     dzl_gtk_widget_add_style_class(self.GtkWidget, $class_name);
   }
 
-  method find_child_typed (Int() $type) {
+  method find_child_typed (Int() $type) is also<find-child-typed> {
     my GType $t = $type;
 
     dzl_gtk_widget_find_child_typed(self.GtkWidget, $t);
   }
 
-  method get_relative (Int() $relative_type) {
+  method get_relative (Int() $relative_type) is also<get-relative> {
     my GType $r = $relative_type;
 
     dzl_gtk_widget_get_relative(self.GtkWidget, $r);
   }
 
-  method hide_with_fade {
+  method hide_with_fade is also<hide-with-fade> {
     dzl_gtk_widget_hide_with_fade(self.GtkWidget);
   }
 
-  method is_ancestor_or_relative (GtkWidget() $ancestor) {
+  method is_ancestor_or_relative (GtkWidget() $ancestor)
+    is also<is-ancestor-or-relative>
+  {
     dzl_gtk_widget_is_ancestor_or_relative(self.GtkWidget, $ancestor);
   }
 
-  method mux_action_groups (GtkWidget() $from_widget, Str() $mux_key) {
+  method mux_action_groups (GtkWidget() $from_widget, Str() $mux_key)
+    is also<mux-action-groups>
+  {
     dzl_gtk_widget_mux_action_groups(self.GtkWidget, $from_widget, $mux_key);
   }
 
-  method remove_style_class (Str() $class_name) {
+  method remove_style_class (Str() $class_name) is also<remove-style-class> {
     dzl_gtk_widget_remove_style_class(self.GtkWidget, $class_name);
   }
 
-  method show_with_fade {
+  method show_with_fade is also<show-with-fade> {
     dzl_gtk_widget_show_with_fade(self.GtkWidget);
   }
 
