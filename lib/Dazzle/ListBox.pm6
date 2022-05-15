@@ -134,3 +134,58 @@ class Dazzle::ListBox is GTK::ListBox {
   }
 
 }
+
+use GTK::ListBoxRow;
+
+our subset DzlListBoxRowAncestry is export of Mu
+  where DzlListBoxRow | GtkListBoxRowAncestry;
+
+class Dazzle::ListBox::Row is GTK::ListBoxRow {
+  has DzlListBoxRow $!dlbr is implementor;
+
+  submethod BUILD ( :$dzl-list-box-row ) {
+    self.setDzlListBoxRow($dzl-list-box-row) if $dzl-list-box-row;
+  }
+
+  method setDzlListBox (DzlListBoxRowAncestry $_) {
+    my $to-parent;
+
+    $!dlbr = do {
+      when DzlListBoxRow  {
+        $to-parent = cast(GtkListBoxRow, $_);
+        $_;
+      }
+
+      default {
+        $to-parent = $_;
+        cast(DzlListBoxRow, $_);
+      }
+    }
+    self.setGtkListBoxRow($to-parent);
+  }
+
+  method Dazzle::Raw::Definitions::DzlListBoxRow
+    is also<DzlListBoxRow>
+  { $!dlbr }
+
+  multi method new (DzlListBoxAncestry $dzl-list-box, :$ref = True) {
+    return Nil unless $dzl-list-box;
+
+    my $o = self.bless( :$dzl-list-box );
+    $o.ref if $ref;
+    $o
+  }
+
+  multi method new {
+    my $dzl-list-box-row = ::?CLASS.new-object-ptr( ::?CLASS.get_type );
+
+    $dzl-list-box-row ?? self.bless( :$dzl-list-box-row ) !! Nil;
+  }
+
+  method get_type is static is also<get-type>{
+    state ($n, $t);
+
+    unstable_get_type(self.^name, &dzl_list_box_row_get_type, $n, $t);
+  }
+
+}

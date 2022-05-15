@@ -50,3 +50,9 @@ sub dzl_list_box_get_type
   is export
   is native(dazzle)
 { * }
+
+sub dzl_list_box_row_get_type
+  returns GType
+  is export
+  is native(dazzle)
+{ * }
