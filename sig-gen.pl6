@@ -73,6 +73,7 @@ sub MAIN (
       %signals{$mn} = ( :$udm, :$mn, :$v, :$s-sig, :$rt ).Hash;
     }
   } elsif (my $control-io = $control.IO).r {
+    say 'Reading from file...';
 
     # If it's a readable file, we have to do things the (James) Hardway
     # 1) Read in the .c file for the signal names
@@ -82,6 +83,8 @@ sub MAIN (
     /;
 
     @signals.push: .[0].Str for @matches;
+
+    @signals.gist.say;
 
     # 2) Read in the .h file for the signal signatures
     my $header = $control-io.absolute.subst('.c', '') ~ '.h';
@@ -157,7 +160,7 @@ sub MAIN (
     # Collision handing post-process.
     if $cpp {
       for $pp.kv -> $k, $v {
-        say "K: $k / V: $v";
+        #say "K: $k / V: $v";
         if $v.ends-with('2') {
           $pp[$k - 1] ~= '1';
         }
