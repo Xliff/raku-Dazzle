@@ -196,7 +196,6 @@ class Dazzle::FileChooserEntry is GTK::Bin {
 
 }
 
-
 ### /usr/src/libdazzle-3.42.0/src/widgets/dzl-file-chooser-entry.h
 
 sub dzl_file_chooser_entry_get_entry (DzlFileChooserEntry $self)
