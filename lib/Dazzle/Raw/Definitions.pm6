@@ -44,6 +44,7 @@ class DzlGraphRenderer                is repr<CPointer> does GLib::Roles::Pointe
 class DzlJoinedMenu                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlListBox                      is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlListBoxRow                   is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlMultiPaned                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPath                         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPathBar                      is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlPathElement                  is repr<CPointer> does GLib::Roles::Pointers is export { }
