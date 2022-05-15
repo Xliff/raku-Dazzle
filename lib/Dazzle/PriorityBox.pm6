@@ -3,7 +3,12 @@ use v6.c;
 use NativeCall;
 use Method::Also;
 
+use Dazzle::Raw::Types;
+
 use GTK::Box;
+
+our subset DzlPriorityBoxAncestry is export of Mu
+  where DzlPriorityBox | GtkBoxAncestry;
 
 class Dazzle::PriorityBox is GTK::Box {
   has DzlPriorityBox $!dpb is implementor;
@@ -47,7 +52,7 @@ class Dazzle::PriorityBox is GTK::Box {
   }
 
 }
-p
+
 
 ### /usr/src/libdazzle-3.42.0/src/widgets/dzl-priority-box.h
 
