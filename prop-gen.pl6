@@ -75,6 +75,8 @@ my %methods;
 sub genSub ($mn, $rw, $gtype, $dep, $vtype-r, $vtype-w) {
   my %c;
 
+  #say "MN: $mn, RW: $rw";
+
   with $rw {
     %c<read> =
       #"\t  \$gv = GLib::Value.new(\n" ~
@@ -121,6 +123,9 @@ READ
       );
     \}
     METH
+
+  %methods{$mn}.say;
+  %methods{$mn}
 }
 
 sub generateFromDOM ($dom, $control, $var) {
@@ -243,28 +248,29 @@ sub generateFromFile (
   my %properties;
   for $search[] {
 
-    .gist.say;
+    #.gist.say;
 
     my $prop-name = .<p>[0].Str;
-    my $rw = .<p>.tail
-                 .split(' | ')
-                 .map({
-                    my $rw-mapped = .trim
-                                    .lc
-                                    .subst('g_param_')
-                                    .subst('able', '')
-                                    .subst('_only', '')
-                                    .map({
-                                      S/ 'writ'» /write/;
-                                    });
 
-                    $rw-mapped.push('read')        if $rw-mapped eq 'read';
-                    $rw-mapped.push('write')       if $rw-mapped eq 'write';
-                    $rw-mapped = ('read', 'write') if $rw-mapped eq 'readwrite';
+    my $rw = do for .<p>.tail
+                        .split(' | ')
+   {
+      my @rw-mapped;
+      my $rw-mapped = .trim
+                      .lc
+                      .subst('g_param_')
+                      .subst('able', '')
+                      .subst('_only', '');
 
-                    |$rw-mapped;
-                  })
-                 .Array;
+      $rw-mapped ~~ tr/()//;
+      $rw-mapped ~~ s/ 'writ'» /write/;
+
+      @rw-mapped.push('read')        if $rw-mapped.any eq 'read';
+      @rw-mapped.push('write')       if $rw-mapped.any eq 'write';
+      @rw-mapped = ('read', 'write') if $rw-mapped.any eq 'readwrite';
+      #@rw-mapped.gist.say;
+      |@rw-mapped;
+    }
 
     my $*co;
     my $type = my $*types = .[0].Str;
@@ -279,6 +285,7 @@ sub generateFromFile (
     }
 
     my $dep = False;
+
     genSub(
       $prop-name.subst('"', '', :g),
       $rw,
@@ -336,5 +343,5 @@ sub MAIN (
     say "Attempting with prefix = { $prefix } control = { $control }";
   }
 
-  .value.say for %methods.pairs.sort( *.key );
+  #.value.say for %methods.pairs.sort( *.key );
 }
