@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use Dazzle::Raw::Types;
 use Dazzle::Raw::Application;
 
@@ -46,6 +48,7 @@ class Dazzle::Application is GTK::Application {
   }
 
   method Dazzle::Raw::Definitions::DzlApplication
+    is also<DzlApplication>
   { $!da }
 
   multi method new (DzlApplicationAncestry $dzl-application, :$ref = True) {
@@ -140,11 +143,11 @@ class Dazzle::Application is GTK::Application {
   #   );
   # }
 
-  method add_resources (Str() $resource_path) {
+  method add_resources (Str() $resource_path) is also<add-resources> {
     dzl_application_add_resources($!da, $resource_path);
   }
 
-  method get_menu_by_id (Str() $menu_id, :$raw = False) {
+  method get_menu_by_id (Str() $menu_id, :$raw = False) is also<get-menu-by-id> {
     propReturnObject(
       dzl_application_get_menu_by_id($!da, $menu_id),
       $raw,
@@ -152,7 +155,7 @@ class Dazzle::Application is GTK::Application {
     );
   }
 
-  method get_menu_manager ( :$raw = False ) {
+  method get_menu_manager ( :$raw = False ) is also<get-menu-manager> {
     propReturnObject(
       dzl_application_get_menu_manager($!da),
       $raw,
@@ -160,7 +163,7 @@ class Dazzle::Application is GTK::Application {
     );
   }
 
-  method get_shortcut_manager ( :$raw = False ) {
+  method get_shortcut_manager ( :$raw = False ) is also<get-shortcut-manager> {
     propReturnObject(
       dzl_application_get_shortcut_manager($!da),
       $raw,
@@ -168,7 +171,7 @@ class Dazzle::Application is GTK::Application {
     )
   }
 
-  method get_theme_manager ( :$raw = False ) {
+  method get_theme_manager ( :$raw = False ) is also<get-theme-manager> {
     propReturnObject(
       dzl_application_get_theme_manager($!da),
       $raw,
@@ -176,7 +179,7 @@ class Dazzle::Application is GTK::Application {
     );
   }
 
-  method remove_resources (Str() $resource_path) {
+  method remove_resources (Str() $resource_path) is also<remove-resources> {
     dzl_application_remove_resources($!da, $resource_path);
   }
 
