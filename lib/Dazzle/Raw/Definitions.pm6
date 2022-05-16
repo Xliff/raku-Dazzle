@@ -66,6 +66,7 @@ class DzlPreferencesView              is repr<CPointer> does GLib::Roles::Pointe
 class DzlPriorityBox                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlProgressButton               is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlProgressIcon                 is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlRadioBox                     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChord                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutChordTable           is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlShortcutContext              is repr<CPointer> does GLib::Roles::Pointers is export { }
