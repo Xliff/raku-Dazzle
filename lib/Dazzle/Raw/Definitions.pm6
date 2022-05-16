@@ -122,3 +122,12 @@ class DzlPatternSpec is repr<CStruct> does GLib::Roles::Pointers is export {
   has CArray[Str] $!parts;
   has guint       $!flags;
 }
+
+class X::StateMachine::TransitionActionNotFound is Exception {
+  has $.name;
+  has $.signal;
+
+  method message {
+    "Object { $!name } must support the '{ $!signal }' event!"
+  }
+}

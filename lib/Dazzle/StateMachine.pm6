@@ -11,6 +11,8 @@ use GLib::Roles::Object;
 our subset DzlStateMachineAncestry is export of Mu
   when DzlStateMachine | GObject;
 
+my %transitions;
+
 class Dazzle::StateMachine {
   also does GLib::Roles::Object;
 
@@ -137,6 +139,90 @@ class Dazzle::StateMachine {
 
   method set_state (Str() $state) {
     dzl_state_machine_set_state($!dsm, $state);
+  }
+
+  method transition-on-click (
+    GObject()  $object,
+               $origin-state,
+               $new-state,
+              :$closure        = Callable,
+              :$condition      = Callable
+  ) {
+    self.transition(
+       $object,
+       'clicked',
+       $origin-state,
+       $new-state,
+      :$closure,
+      :$condition
+    );
+  }
+
+  method transition-on-select (
+    GObject()  $object,
+               $origin-state,
+               $new-state,
+              :$closure        = Callable,
+              :$condition      = Callable
+  ) {
+    self.transition(
+       $object,
+       'selected',
+       $origin-state,
+       $new-state,
+      :$closure,
+      :$condition
+    );
+  }
+
+  method transition-on-activate (
+    GObject()  $object,
+               $origin-state,
+               $new-state,
+              :$closure        = Callable,
+              :$condition      = Callable
+  ) {
+    self.transition(
+       $object,
+       'activated',
+       $origin-state,
+       $new-state,
+      :$closure,
+      :$condition
+    );
+  }
+
+  # cw: QoL improvements:
+  method transition (
+    GObject()  $object,
+               $signal,
+               $origin-state,
+               $new-state,
+              :$closure        = Callable,
+              :$condition      = Callable
+  ) {
+    X::StateMachine::TransitionActionNotFound.new(
+      name   => $object.name,
+      signal => $signal
+    ).new.throw unless $object.^can($signal);
+
+    my \t := %transitions{ +$!dsm }{ +$object }{$origin-state}{$new-state};
+
+    return if t;
+    
+    t = 1;
+
+    my $machine = self;
+    $object."$signal"().tap( sub (*@a) {
+      return unless $machine.state eq $origin-state;
+
+      if $condition {
+        return unless $condition();
+      }
+
+      $machine.state =  $new-state;
+      $closure()     if $closure;
+    });
   }
 
 }
