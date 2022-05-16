@@ -7,6 +7,7 @@ use NativeCall;
 use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 
+use GLib::Value;
 use GTK::DrawingArea;
 
 our subset DzlProgressIconAncestry is export of Mu
