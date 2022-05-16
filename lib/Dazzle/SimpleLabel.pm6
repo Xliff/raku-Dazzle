@@ -6,6 +6,7 @@ use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 use Dazzle::Raw::SimpleLabel;
 
+use GLib::Value;
 use GTK::Label;
 
 our subset DzlSimpleLabelAncestry is export of Mu
