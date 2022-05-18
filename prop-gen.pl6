@@ -227,7 +227,7 @@ sub generateFromFile (
       ^^  <start-decls> \s* '(' $<t>=[ <{ $type-prefix }> \w+ ]
     /;
 
-    $/<t> ?? $/<t>.Str !! die 'Could not find name of control!'
+    $/<t> ?? $/<t>.Str !! 'Dzl'
   } else {
     $control-name
   }
