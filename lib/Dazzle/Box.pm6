@@ -1,10 +1,12 @@
 use v6.c;
 
 use NativeCall;
+use Method::Also;
 
 use Dazzle::Raw::Types;
 
 use GTK::Box;
+use GTK::Widget;
 
 our subset DzlBoxAncestry is export of Mu
   where DzlBox | GtkBoxAncestry;
@@ -34,6 +36,7 @@ class Dazzle::Box is GTK::Box {
   }
 
   method Dazzle::Raw::Definitions::DzlBox
+    is also<DzlBox>
   { $!db }
 
   multi method new (DzlBoxAncestry $dzl-box, :$ref = True) {
@@ -43,17 +46,31 @@ class Dazzle::Box is GTK::Box {
     $o.ref if $ref;
     $o;
   }
-  method new {
+  multi method new {
     my $dzl-box = dzl_box_new();
 
     $dzl-box ?? self.bless( :$dzl-box ) !! Nil;
   }
 
-  method get_max_width_request {
+  method new-hbox (Int $spacing = 0) is also<new_hbox> {
+    ( .orientation, .default-spacing) = (GTK_ORIENTATION_HORIZONTAL, $spacing)
+      given (my $b = self.new);
+    $b;
+  }
+
+  method new-vbox (Int $spacing = 0) is also<new_vbox> {
+    ( .orientation, .default-spacing) = (GTK_ORIENTATION_VERTICAL, $spacing)
+      given (my $b = self.new);
+    $b;
+  }
+
+  method get_max_width_request is also<get-max-width-request> {
     dzl_box_get_max_width_request($!db);
   }
 
-  method get_nth_child (Int() $nth, :$raw = False, :$widget = False) {
+  method get_nth_child (Int() $nth, :$raw = False, :$widget = False)
+    is also<get-nth-child>
+  {
     my guint $n = $nth;
 
     ReturnWidget(
@@ -63,7 +80,9 @@ class Dazzle::Box is GTK::Box {
     );
   }
 
-  method set_max_width_request (Int() $max_width_request) {
+  method set_max_width_request (Int() $max_width_request)
+    is also<set-max-width-request>
+  {
     my gint $m = $max_width_request;
 
     dzl_box_set_max_width_request($!db, $m);
