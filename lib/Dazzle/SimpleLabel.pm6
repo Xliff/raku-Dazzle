@@ -40,6 +40,9 @@ class Dazzle::SimpleLabel is GTK::Label {
     is also<DzlSimpleLabel>
   { $!dsl }
 
+  proto method new (|)
+  { * }
+
   multi method new (DzlSimpleLabelAncestry $dzl-simple-label, :$ref = True) {
     return Nil unless $dzl-simple-label;
 
@@ -47,7 +50,7 @@ class Dazzle::SimpleLabel is GTK::Label {
     $o.ref if $ref;
     $o
   }
-  multi method new (Str() $label) {
+  multi method new (Str() $label = Str) is default {
     my $dzl-simple-label = dzl_simple_label_new($label);
 
     $dzl-simple-label ?? self.bless( :$dzl-simple-label ) !! Nil;
