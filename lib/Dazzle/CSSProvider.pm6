@@ -47,10 +47,13 @@ class Dazzle::CSSProvider is GTK::CSSProvider {
   method Dazzle::Raw::Definitions::DzlCSSProvider
   { $!dcp }
 
-  multi method new (DzlCSSProviderAncestry $dzl-box, :$ref = True) {
-    return unless $dzl-box;
+  proto method new (|)
+  { * }
 
-    my $o = self.bless( :$dzl-box );
+  multi method new (DzlCSSProviderAncestry $dzl-css-provider, :$ref = True) {
+    return unless $dzl-css-provider;
+
+    my $o = self.bless( :$dzl-css-provider );
     $o.ref if $ref;
     $o;
   }
