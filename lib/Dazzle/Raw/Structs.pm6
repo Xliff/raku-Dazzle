@@ -113,6 +113,21 @@ class DzlShortcutsWindow is repr<CStruct> is export {
 	has GtkWindow $!window;
 }
 
+class DzlFrameSource is repr<CStruct> is export {
+	HAS GSource $.parent;
+	has guint   $.fps         is rw;
+	has guint   $.frame-count is rw;
+	has gint64  $.start-time  is rw;
+
+	method frame_count is rw {
+		$!frame-count;
+	}
+
+	method start_time is rw {
+		$!start-time
+	}
+}
+
 class action is repr<CStruct> is export {
 	has Str      $!group ;
 	has Str      $!name  ;
