@@ -10,6 +10,10 @@ role AttributeDescription[$d] {
   method attribute-description { $d }
 }
 
+role SummaryAttribute[$s] {
+  method summary-text { $s }
+}
+
 role PreferencesWidget {
   has $!widget-id;
 
@@ -36,6 +40,9 @@ role TitledPreferencesWidget[$t] {
 role SubTitledPreferencesWidget[$s] {
   method subtitle { $s }
 }
+
+role SpinWidget   { }
+role SwitchWidget { }
 
 role KeywordsWidget[$k] {
   method keywords { $k }
@@ -69,30 +76,30 @@ role PreferencesClass {
 
   method to-schema {
     sub to-key (Attribute $a) {
-      do given $a.type {
-        when 'Int'  { 'i' }
-        when 'Str'  { 's' }
-        when 'Num'  { 'd' }
-        when 'Bool' { 'b' }
+      my $kt = do given $a.type {
+        when Int  { 'i' }
+        when Str  { 's' }
+        when Num  { 'd' }
+        when Bool { 'b' }
 
-        default    { 's' }
+        default   { 's' }
       }
 
       qq:to/KEY/;
-        <key type="{ .&to-key }" name="{ .name.substr(2).lc }">
-          <default>{     .?default     // ''}</default>
-          <summary>{     .?summary     // '' }</summary>
-          <description>{ .?description // '' }</description>
+        <key type="{ $kt }" name="{ $a.name.substr(2).lc }">
+          <default>{     $a.?default-value         // ''}</default>
+          <summary>{     $a.?summary-text          // '' }</summary>
+          <description>{ $a.?attribute-description // '' }</description>
         </key>
         KEY
     }
 
-    my id = "org.gnome.{ self.^name.lc }"
+    my $id = "org.gnome.{ self.^name.lc }";
     qq:to/XML/;
       <?xml version="1.0" encoding="UTF-8"?>
       <schemalist>
-        <schema id="{$id}" path="{ $id.subst('.', '/') }>
-        { self.^attributes.map( *.&to-key ).join("\n\t") }
+        <schema id="{$id}" path="{ $id.subst('.', '/', :g) }>
+        { self.^attributes.map({ .gist.say; to-key($_) }).join("\n\t") }
         </schema>
       </schemalist>
       XML
@@ -169,7 +176,11 @@ multi sub trait_mod:<is> (Attribute \a, :$default-value!) {
 }
 
 multi sub trait_mod:<is> (Attribute \a, :$description!) {
-  a does AttributeDescription($description);
+  a does AttributeDescription[$description];
+}
+
+multi sub trait_mod:<is> (Attribute \a, :$summary!) {
+  a does SummaryAttribute[$summary];
 }
 
 # The goal is:
@@ -182,6 +193,7 @@ class AppCharacteristics does PreferencesClass {
   has Str $.title         is titled<My Title>
                           is summary('A title')
                           is description('A title of whatever you want titled');
+
   has Int $.number        is in-group<Generic Items>
                           is default-value(42);
   #| -- Math
@@ -267,7 +279,7 @@ class Dazzle::Preferences::Builder {
         sub checkType ( $c, *@types ) {
           # cw: Attribute must be one of the listed types or have a
           #     new method that will accept one of the listed types.
-          for @types (
+          for @types {
             return True if .type ~~ $_;
             return True if .type.^lookup('new').grep( *.cando: \($class, $_) );
           }
