@@ -149,3 +149,14 @@ class signal is repr<CStruct> is export {
 	has Str    $!name  ;
 	has GArray $!params;
 }
+
+class DzlFileTransferStat is repr<CStruct> is export {
+  has gint64 $.n_files_total;
+  has gint64 $.n_files;
+  has gint64 $.n_dirs_total;
+  has gint64 $.n_dirs;
+  has gint64 $.n_bytes_total;
+  has gint64 $.n_bytes;
+
+  HAS gint64 @!padding[10]    is CArray;
+}
