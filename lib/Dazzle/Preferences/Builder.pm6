@@ -2,6 +2,14 @@ use v6.c;
 
 use Dazzle::Raw::Types;
 
+role DefaultValue[$v] {
+  method default-value { $v }
+}
+
+role AttributeDescription[$d] {
+  method attribute-description { $d }
+}
+
 role PreferencesWidget {
   has $!widget-id;
 
@@ -56,7 +64,40 @@ role CustomWidget[$widget] {
 role FileWidget       { }
 role FontWidget       { }
 role EntryWidget      { }
-role PreferencesClass { }
+
+role PreferencesClass {
+
+  method to-schema {
+    sub to-key (Attribute $a) {
+      do given $a.type {
+        when 'Int'  { 'i' }
+        when 'Str'  { 's' }
+        when 'Num'  { 'd' }
+        when 'Bool' { 'b' }
+
+        default    { 's' }
+      }
+
+      qq:to/KEY/;
+        <key type="{ .&to-key }" name="{ .name.substr(2).lc }">
+          <default>{     .?default     // ''}</default>
+          <summary>{     .?summary     // '' }</summary>
+          <description>{ .?description // '' }</description>
+        </key>
+        KEY
+    }
+
+    my id = "org.gnome.{ self.^name.lc }"
+    qq:to/XML/;
+      <?xml version="1.0" encoding="UTF-8"?>
+      <schemalist>
+        <schema id="{$id}" path="{ $id.subst('.', '/') }>
+        { self.^attributes.map( *.&to-key ).join("\n\t") }
+        </schema>
+      </schemalist>
+      XML
+  }
+}
 
 multi sub trait_mod:<is> (Attribute \a, :$in-group!) is export {
   a does GroupedPreferencesWidget[$in-group.item];
@@ -123,6 +164,13 @@ multi sub trait_mod:<is> (Attribute \a, :$using-widget!) is export {
   a does PreferencesWidget                    unless a ~~ PreferencesWidget;
 }
 
+multi sub trait_mod:<is> (Attribute \a, :$default-value!) {
+  a does DefaultValue[$default-value];
+}
+
+multi sub trait_mod:<is> (Attribute \a, :$description!) {
+  a does AttributeDescription($description);
+}
 
 # The goal is:
 
@@ -131,8 +179,11 @@ class AppCharacteristics does PreferencesClass {
 
   #| === ID
   #| -- Grammar
-  has Str $.title         is titled<My Title>;
-  has Int $.number        is in-group<Generic Items>;
+  has Str $.title         is titled<My Title>
+                          is summary('A title')
+                          is description('A title of whatever you want titled');
+  has Int $.number        is in-group<Generic Items>
+                          is default-value(42);
   #| -- Math
   has Num $.pi            is priority(2);
   has Int $.choices       is radio<1 2 3>;
