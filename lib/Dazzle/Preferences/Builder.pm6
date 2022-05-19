@@ -86,11 +86,11 @@ role PreferencesClass {
       }
 
       qq:to/KEY/;
-        <key type="{ $kt }" name="{ $a.name.substr(2).lc }">
-          <default>{     $a.?default-value         // ''}</default>
-          <summary>{     $a.?summary-text          // '' }</summary>
-          <description>{ $a.?attribute-description // '' }</description>
-        </key>
+            <key type="{ $kt }" name="{ $a.name.substr(2).lc }">
+              <default>{     $a.?default-value         // ''}</default>
+              <summary>{     $a.?summary-text          // '' }</summary>
+              <description>{ $a.?attribute-description // '' }</description>
+            </key>
         KEY
     }
 
@@ -99,7 +99,7 @@ role PreferencesClass {
       <?xml version="1.0" encoding="UTF-8"?>
       <schemalist>
         <schema id="{$id}" path="{ $id.subst('.', '/', :g) }>
-        { self.^attributes.map({ .gist.say; to-key($_) }).join("\n\t") }
+{ self.^attributes.map({ to-key($_) }).join('').chomp }
         </schema>
       </schemalist>
       XML
@@ -435,12 +435,10 @@ class Dazzle::Preferences::Builder {
     }
   }
 
-  # method new (DzlPreferencesView() $view, :$class) {
-  #   self.bless( :$view, :$class )
-  # }
-
-
-  method new ($class) {
+  multi method new (DzlPreferencesView() $view, :$class) {
+    self.bless( :$view, :$class )
+  }
+  multi method new ($class) {
     self.bless( :$class );
   }
 
