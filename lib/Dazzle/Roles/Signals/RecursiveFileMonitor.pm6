@@ -36,11 +36,16 @@ role Dazzle::Roles::Signals::RecursiveFileMonitor {
 
 # GFileMonitor, GFile, GFile, GFileMonitorEvent, gpointer
 sub g-connect-dzl-changed(
-  Pointer $app,
-  Str     $name,
-          &handler (DzlRecursiveFileMonitor, GFile, GFile, GFileMonitorEvent),
-  Pointer $data,
-  uint32  $flags
+  DzlRecursiveFileMonitor $app,
+  Str                     $name,
+                          &handler (
+                            DzlRecursiveFileMonitor,
+                            GFile,
+                            GFile,
+                            GFileMonitorEvent
+                          ),
+  Pointer                 $data,
+  uint32                  $flags
 )
   returns uint64
   is native(gobject)
