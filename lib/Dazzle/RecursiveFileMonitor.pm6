@@ -62,6 +62,9 @@ class Dazzle::RecursiveFileMonitor {
     $dzl-recursive-file-monitor ?? self.bless( :$dzl-recursive-file-monitor )
                                 !! Nil;
   }
+  multi method new (IO::Path $root) {
+    samewith( GIO::File.new_for_path($root) );
+  }
 
   method changed {
     self.connect-dzl-changed($!drfm);
@@ -96,7 +99,19 @@ class Dazzle::RecursiveFileMonitor {
     is also<start-async>
   { * }
 
-   multi method start_async (
+
+  multi method start_async {
+    my $rv;
+    my $s = Supplier.new;
+
+    samewith(-> *@a {
+      $s.emit(
+        self.start_finish( @a[1] )
+      );
+    });
+    $s.Supply;
+  }
+  multi method start_async (
                     &callback,
     gpointer        $user_data    = gpointer,
     GCancellable() :$cancellable  = GCancellable
