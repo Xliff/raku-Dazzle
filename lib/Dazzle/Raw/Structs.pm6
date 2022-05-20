@@ -128,23 +128,23 @@ class DzlFrameSource is repr<CStruct> is export {
 	}
 }
 
-class action is repr<CStruct> is export {
+class action is repr<CStruct> {
 	has Str      $!group ;
 	has Str      $!name  ;
 	has GVariant $!params;
 }
 
-class callback is repr<CStruct> is export {
+class callback is repr<CStruct> {
 	has Pointer   $!callback ;
 	has gpointer  $!user_data;
 	has Pointer   $!notify   ;
 }
 
-class command is repr<CStruct> is export {
+class command is repr<CStruct> {
 	has Str $!name;
 }
 
-class signal is repr<CStruct> is export {
+class signal is repr<CStruct> {
 	has GQuark $!detail;
 	has Str    $!name  ;
 	has GArray $!params;
