@@ -41,6 +41,7 @@ class DzlFileChooserEntry             is repr<CPointer> does GLib::Roles::Pointe
 class DzlFileTransfer                 is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlFuzzyIndex                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlFuzzyIndexCursor             is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlFuzzyIndexMatch              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphColumn                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphModel                   is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlGraphRenderer                is repr<CPointer> does GLib::Roles::Pointers is export { }
