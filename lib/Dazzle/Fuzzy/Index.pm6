@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use Dazzle::Raw::Types;
@@ -38,6 +40,7 @@ class Dazzle::Fuzzy::Index {
   }
 
   method Dazzle::Raw::Definitions::DzlFuzzyIndex
+    is also<DzlFuzzyIndex>
   { $!dfi }
 
   multi method new (DzlFuzzyIndexAncestry $dzl-fuzzy-index, :$ref = True) {
@@ -53,23 +56,24 @@ class Dazzle::Fuzzy::Index {
     $dzl-fuzzy-index ?? self.bless( :$dzl-fuzzy-index ) !! Nil;
   }
 
-  method get_metadata (Str() $key) {
+  method get_metadata (Str() $key) is also<get-metadata> {
     dzl_fuzzy_index_get_metadata($!dfi, $key);
   }
 
-  method get_metadata_string (Str() $key) {
+  method get_metadata_string (Str() $key) is also<get-metadata-string> {
     dzl_fuzzy_index_get_metadata_string($!dfi, $key);
   }
 
-  method get_metadata_uint32 (Str() $key) {
+  method get_metadata_uint32 (Str() $key) is also<get-metadata-uint32> {
     dzl_fuzzy_index_get_metadata_uint32($!dfi, $key);
   }
 
-  method get_metadata_uint64 (Str() $key) {
+  method get_metadata_uint64 (Str() $key) is also<get-metadata-uint64> {
     dzl_fuzzy_index_get_metadata_uint64($!dfi, $key);
   }
 
   proto method load_file (|)
+    is also<load-file>
   { * }
 
   multi method load_file (
@@ -91,6 +95,7 @@ class Dazzle::Fuzzy::Index {
   }
 
   proto method load_file_async (|)
+    is also<load-file-async>
   { * }
 
   multi method load_file_async (
@@ -127,6 +132,7 @@ class Dazzle::Fuzzy::Index {
   }
 
   proto method query_async (|)
+    is also<query-async>
   { * }
 
   multi method query_async (
