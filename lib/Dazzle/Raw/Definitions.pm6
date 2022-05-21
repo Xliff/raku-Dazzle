@@ -102,6 +102,7 @@ class DzlThemeManager                 is repr<CPointer> does GLib::Roles::Pointe
 class DzlTree                         is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTreeBuilder                  is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTreeNode                     is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlTreeStore                    is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlDockTransientGrab            is repr<CPointer> does GLib::Roles::Pointers is export { }
 
 class DazzleGraphView                 is repr<CPointer> does GLib::Roles::Pointers is export { }
