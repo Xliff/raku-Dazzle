@@ -1,5 +1,7 @@
 use v6.c;
 
+use Method::Also;
+
 use NativeCall;
 
 use GLib::Raw::Traits;
@@ -38,6 +40,7 @@ class Dazzle::Fuzzy::Index::Match {
   }
 
   method Dazzle::Raw::Definitions::DzlFuzzyIndexMatch
+    is also<DzlFuzzyIndexMatch>
   { $!dfim }
 
   multi method new (
@@ -50,13 +53,21 @@ class Dazzle::Fuzzy::Index::Match {
     $o.ref if $ref;
     $o;
   }
-  multi method new ($document, $key, $priority, $score) {
+  multi method new (
+    GVariant() $document,
+    Str()      $key,
+    Int()      $priority,
+    Num()      $score
+  ) {
+    my gfloat $s = $score;
+    my gint   $p = $priority;
+
     my $dzl-fuzzy-index-match = dzl_fuzzy_index_match_new(
       ::?CLASS.get_type,
       'document',        $document,
       'key',             $key,
-      'priority',        $priority,
-      'score',           $score,
+      'priority',        $p,
+      'score',           $s,
       Str
     );
 
@@ -72,23 +83,43 @@ class Dazzle::Fuzzy::Index::Match {
     self.new($document, $key, $priority, $score);
   }
 
-  method get_document {
+  method get_document
+    is also<
+      get-document
+      document
+    >
+  {
     dzl_fuzzy_index_match_get_document($!dfim);
   }
 
-  method get_key {
+  method get_key
+    is also<
+      get-key
+      key
+    >
+  {
     dzl_fuzzy_index_match_get_key($!dfim);
   }
 
-  method get_priority {
+  method get_priority
+    is also<
+      get-priority
+      priority
+    >
+  {
     dzl_fuzzy_index_match_get_priority($!dfim);
   }
 
-  method get_score {
+  method get_score
+    is also<
+      get-score
+      score
+    >
+  {
     dzl_fuzzy_index_match_get_score($!dfim);
   }
 
-  method get_type is static {
+  method get_type is static is also<get-type> {
     state ($n, $t);
 
     unstable_get_type( self.^name, &dzl_fuzzy_index_match_get_type, $n, $t )
