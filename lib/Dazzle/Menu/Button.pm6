@@ -20,7 +20,7 @@ class Dazzle::Menu::Button is GTK::MenuButton {
 
     $!dmb = do {
       when DzlMenuButton {
-        $to-parent = cast(GtkBox, $_);
+        $to-parent = cast(GtkButton, $_);
         $_;
       }
 
@@ -29,7 +29,7 @@ class Dazzle::Menu::Button is GTK::MenuButton {
         cast(DzlMenuButton, $_);
       }
     }
-    self.setGtkBox($to-parent);
+    self.setGtkMenuButton($to-parent);
   }
 
   method Dazzle::Raw::Definitions::DzlMenuButton
