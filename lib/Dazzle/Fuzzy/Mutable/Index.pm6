@@ -1,5 +1,6 @@
 use v6.c;
 
+use GLib::Raw::Traits;
 use Dazzle::Raw::Types;
 use Dazzle::Raw::Fuzzy::Mutable::Index;
 
@@ -57,10 +58,12 @@ class Dazzle::Fuzzy::Mutable::Index {
     dzl_fuzzy_mutable_index_contains($!dfmi, $key);
   }
 
-  method highlight (Str() $query, Int() $case_sensitive) {
+  method highlight (Str() $needle, Str() $query, Int() $case_sensitive)
+    is static
+  {
     my gboolean $c = $case_sensitive.so.Int;
 
-    dzl_fuzzy_highlight($!dfmi, $query, $case_sensitive);
+    dzl_fuzzy_highlight($needle, $query, $case_sensitive);
   }
 
   method end_bulk_insert {
@@ -112,4 +115,12 @@ class Dazzle::Fuzzy::Mutable::Index {
     dzl_fuzzy_mutable_index_unref($!dfmi);
   }
 
+}
+
+sub search_highlight (Str() $needle, Str() $haystack, Int() $case) is export {
+  Dazzle::Fuzzy::Mutable::Index.highlight($needle, $haystack, $case);
+}
+
+sub search-highlight (Str() $needle, Str() $haystack, Int() $case) is export {
+  search_highlight($needle, $haystack, $case);
 }
