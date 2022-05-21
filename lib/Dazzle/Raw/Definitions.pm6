@@ -95,6 +95,7 @@ class DzlSuggestionButton             is repr<CPointer> does GLib::Roles::Pointe
 class DzlSuggestionEntry              is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSuggestionEntryBuffer        is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlSuggestionPopover            is repr<CPointer> does GLib::Roles::Pointers is export { }
+class DzlSuggestionRow                is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTab                          is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlTabStrip                     is repr<CPointer> does GLib::Roles::Pointers is export { }
 class DzlThemeManager                 is repr<CPointer> does GLib::Roles::Pointers is export { }
