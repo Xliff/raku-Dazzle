@@ -168,10 +168,10 @@ class Dazzle::ListBox::Row is GTK::ListBoxRow {
     is also<DzlListBoxRow>
   { $!dlbr }
 
-  multi method new (DzlListBoxAncestry $dzl-list-box, :$ref = True) {
-    return Nil unless $dzl-list-box;
+  multi method new (DzlListBoxAncestry $dzl-list-box-row, :$ref = True) {
+    return Nil unless $dzl-list-box-row;
 
-    my $o = self.bless( :$dzl-list-box );
+    my $o = self.bless( :$dzl-list-box-row );
     $o.ref if $ref;
     $o
   }
