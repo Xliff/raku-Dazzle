@@ -79,10 +79,17 @@ sub MAIN (
     # 1) Read in the .c file for the signal names
     my @signals;
     my @matches = $control-io.slurp ~~ m:g/
-      "g_signal_new" \s* "("\s* <["]> (<[\-\_\w]>+)
+      "g_signal_new" \s* "("
+        #\s* <["]> (<[\-\_\w]>+)
+        (<-[\,]>+)
     /;
 
-    @signals.push: .[0].Str for @matches;
+    for @matches {
+      my $sn = .[0].Str;
+      $sn.gist.say;
+      $sn ~~ s/<[A..Z]>+ '_("' (<[\-\_\w]>+) '")' /$0/;
+      @signals.push: $sn;
+    }
 
     @signals.gist.say;
 
@@ -91,8 +98,10 @@ sub MAIN (
     die "Could not find header '{ $header }' file for signatures!"
       unless $header.IO.r;
 
+    @signals.map({ .subst('-', '_', :g) }).say;
+
     my $signature-matches = $header.IO.slurp ~~ m:g/
-      $<rt>=[(\w+) \s* '*'?] '(*'
+      $<rt>=[(\w+) \s* '*'?] '(*' \s*
       $<signal>=<{ @signals.map({ .subst('-', '_', :g) }) }> ')'
       \s*
       '(' $<sig>=( <-[\)]>+ ) ')'
