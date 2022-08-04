@@ -8,7 +8,7 @@ use GDK::Raw::Exports;
 use GTK::Raw::Exports:ver<3>;
 use Dazzle::Raw::Exports;
 
-my constant forced = 148;
+my constant forced = 149;
 
 unit package Dazzle::Raw::Types;
 
@@ -21,6 +21,7 @@ need GLib::Raw::Structs;
 need GLib::Raw::Struct_Subs;
 need GLib::Raw::Subs;
 need GLib::Roles::Pointers;
+need GLib::Roles::Implementor;
 need ATK::Raw::Definitions;
 need ATK::Raw::Enums;
 need ATK::Raw::Structs;
