@@ -39,6 +39,9 @@ class Dazzle::Box is GTK::Box {
     is also<DzlBox>
   { $!db }
 
+  proto method new (|)
+  { * }
+
   multi method new (DzlBoxAncestry $dzl-box, :$ref = True) {
     return unless $dzl-box;
 
@@ -53,14 +56,14 @@ class Dazzle::Box is GTK::Box {
   }
 
   method new-hbox (Int $spacing = 0) is also<new_hbox> {
-    ( .orientation, .default-spacing) = (GTK_ORIENTATION_HORIZONTAL, $spacing)
-      given (my $b = self.new);
+    (.orientation, .spacing ) = (GTK_ORIENTATION_HORIZONTAL, $spacing)
+      given (my $b = Dazzle::Box.new);
     $b;
   }
 
   method new-vbox (Int $spacing = 0) is also<new_vbox> {
-    ( .orientation, .default-spacing) = (GTK_ORIENTATION_VERTICAL, $spacing)
-      given (my $b = self.new);
+    ( .orientation, .spacing ) = (GTK_ORIENTATION_VERTICAL, $spacing)
+      given (my $b = Dazzle::Box.new);
     $b;
   }
 
