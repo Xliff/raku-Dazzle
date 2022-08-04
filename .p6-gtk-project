@@ -7,3 +7,4 @@ backups=backup,bitbucket,google-backup,azure-backup,hut
 build_exclude=
 hfile-prefix=
 type-prefix=Dzl
+has-widgets=True
