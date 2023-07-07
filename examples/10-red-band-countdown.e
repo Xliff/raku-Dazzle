@@ -2,11 +2,11 @@
 use v6.c;
 use DateTime::Format;
 
-use GDK::Raw::Enums;
-use GTK::Raw::Enums;
+use GTK::Raw::Types;
 
 use GLib::Timeout;
 use GDK::Display;
+use GDK::KeySyms;
 use GDK::Screen;
 use GDK::Visual;
 use GTK::Application;
@@ -45,19 +45,27 @@ $a.activate.tap( -> *@a {
 
   given $a.window {
     .type-hint         = GDK_WINDOW_TYPE_HINT_NORMAL,
-    .decorated         = True,
+    .decorated         = False,
     .skip-taskbar-hint = False,
     .skip-pager-hint   = False,
     .app-paintable     = True
   }
 
   $a.window.makeTransparent(
-    button-press => -> ($d1, $e, $d2) {
-      $a.window.decorated = $a.window.decorated.not
-        if $e.type == GDK_DOUBLE_BUTTON_PRESS;
-      False;
-    }
+    button-press => -> *@a ($d1, $e, $d2) { False }
   );
+
+  # cw: ESC with window in focus will exit.
+  $a.window.key-press-event.tap( -> *@a ($, $e is copy, $, $r) {
+    $e = cast(GdkEventKey, $e);
+
+    if $e.keyval == GDK_KEY_Escape {
+      $a.quit( :gio );
+      $r.r = 1;
+    } else {
+      $r.r = 0;
+    }
+  });
 
   my $gdkScreen = GDK::Display.default.default-screen;
 
@@ -114,6 +122,7 @@ $a.activate.tap( -> *@a {
 
       $d = DateTime.new($minEntry.text.Num * 60);
       $dialog.hide;
+      $box.replace_style_class('box', 'active-box');
       displayDate;
 
       $t = GLib::Timeout.add(1000, -> *@a { displayDate; 1 });
@@ -124,27 +133,8 @@ $a.activate.tap( -> *@a {
     $t.cancel;
     $countdown.hide;
     $button.show;
+    $box.replace_style_class('active-box', 'box');
   }
-
-  $a.window.draw.tap( -> *@a  {
-    use GDK::Raw::Cairo;
-    use GTK::Raw::Widget;
-
-    CATCH { default { .message.say; .backtrace.concise.say } }
-
-    # Change these to cairo raws.
-    use Cairo;
-    use GDK::Cairo;
-
-    my $c = gdk_cairo_create( gtk_widget_get_window( @a[0].GtkWidget ) );
-    $c.set_source_rgba(1.0.Num, 1.0.Num, 1.0.Num, 0.0.Num);
-    $c.set_operator(OPERATOR_SOURCE.Int);
-    $c.paint;
-    #$c.destroy;
-
-    #displayDate;
-    @a.tail.r = 0;
-  });
 });
 
 $a.run;
@@ -152,11 +142,17 @@ $a.run;
 =begin css
   label      { font-weight: bold;  }
   .countdown { font-size: 48px;    }
-  .button    { }
 
-  .box       {
-    background-color: red;
+  .button    {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .box {
+    background-color: #008811;
+  }
+
+  .active-box {
+    background-color: red;
   }
 =end css
