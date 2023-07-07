@@ -88,16 +88,15 @@ $a.activate.tap( -> *@a {
     my $area       = $dialog.content-area;
     my $vbox       = GTK::Box.new-vbox;
     my $entryLabel = GTK::Label.new('Enter Duration in minutes');
-    my $minEntry   = GTK::Entry.new;
+    my $minEntry   = GTK::Entry.new.setAttributes(
+      activates-default => True
+    );
 
-    # cw: I'll fix you later you &*(%^&%!
-    #$dialog.default-widget = $entryLabel;
+    my $okButton = $dialog.get_widget_for_response(GTK_RESPONSE_OK);
+    $okButton.can-default = True;
+    $okButton.grab-default;
 
     $area.pack-end($_) for $minEntry, $entryLabel;
-
-#    $vbox.pack-start($_) for $entryLabel, $minEntry;
-#    $area.pack-start($vbox, True, True);
-
     $dialog.show_all;
 
     my $response = $dialog.run;
@@ -110,22 +109,14 @@ $a.activate.tap( -> *@a {
         }
       }
 
-      say "D0";
       $button.hide;
-      say "D0-B";
       $countdown.show;
-      say "D0-C";
 
       $d = DateTime.new($minEntry.text.Num * 60);
-      say "D0-D";
-
       $dialog.hide;
-      say "D0-DH";
       displayDate;
-      say "D0-DD";
 
       $t = GLib::Timeout.add(1000, -> *@a { displayDate; 1 });
-      say "D1";
     }
   });
 
