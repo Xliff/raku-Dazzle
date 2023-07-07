@@ -55,18 +55,6 @@ $a.activate.tap( -> *@a {
     button-press => -> *@a ($d1, $e, $d2) { False }
   );
 
-  # cw: ESC with window in focus will exit.
-  $a.window.key-press-event.tap( -> *@a ($, $e is copy, $, $r) {
-    $e = cast(GdkEventKey, $e);
-
-    if $e.keyval == GDK_KEY_Escape {
-      $a.quit( :gio );
-      $r.r = 1;
-    } else {
-      $r.r = 0;
-    }
-  });
-
   my $gdkScreen = GDK::Display.default.default-screen;
 
   $a.window.set_size_request($gdkScreen.width.pred, 100);
@@ -77,6 +65,13 @@ $a.activate.tap( -> *@a {
 
   my ($t, $d, $duration);
 
+  sub resetTimer {
+    $t.cancel;
+    $countdown.hide;
+    $button.show;
+    $box.replaceStyleClass('active-box', 'box');
+  }
+
   sub displayDate {
     $d .= earlier( :1second );
 
@@ -84,6 +79,22 @@ $a.activate.tap( -> *@a {
 
     $countdown.label = strftime('%T', $d);
   }
+
+  # cw: ESC with window in focus will exit.
+   $a.window.key-press-event.tap( -> *@a ($, $e is copy, $, $r) {
+     $e = cast(GdkEventKey, $e);
+
+     if $e.keyval == GDK_KEY_Escape {
+       if $box.hasStyleClass('box') {
+         $a.quit( :gio );
+       } else {
+         resetTimer;
+       }
+       $r.r = 1;
+     } else {
+       $r.r = 0;
+     }
+   });
 
   $button.clicked.tap( -> *@a {
     CATCH {
@@ -122,19 +133,12 @@ $a.activate.tap( -> *@a {
 
       $d = DateTime.new($minEntry.text.Num * 60);
       $dialog.hide;
-      $box.replace_style_class('box', 'active-box');
+      $box.replaceStyleClass('box', 'active-box');
       displayDate;
 
       $t = GLib::Timeout.add(1000, -> *@a { displayDate; 1 });
     }
   });
-
-  sub resetTimer {
-    $t.cancel;
-    $countdown.hide;
-    $button.show;
-    $box.replace_style_class('active-box', 'box');
-  }
 });
 
 $a.run;
